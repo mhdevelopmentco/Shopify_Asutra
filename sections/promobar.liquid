@@ -1,0 +1,44 @@
+{% if section.settings.promobar_enable %}
+  <div class="promobar">
+    <div class="wrapper">
+      <span>{{ section.settings.promobar_content }}</span>
+    </div>
+  </div>
+
+  {% assign promobar = true %}
+{% endif %}
+
+{% style %}
+  .promobar {
+    background-color: {{ section.settings.promobar_background_color }};
+    color: {{ section.settings.promobar_content_color }};
+  }
+{% endstyle %}
+
+{% schema %}
+  {
+    "name": "Promobar",
+    "settings": [
+      {
+        "type": "checkbox",
+        "id": "promobar_enable",
+        "label": "Enable"
+      },
+      {
+        "type": "textarea",
+        "id": "promobar_content",
+        "label": "Content"
+      },
+      {
+        "type": "color",
+        "id": "promobar_content_color",
+        "label": "Content Color"
+      },
+      {
+        "type": "color",
+        "id": "promobar_background_color",
+        "label": "Background Color"
+      }
+    ]
+  }
+{% endschema %}

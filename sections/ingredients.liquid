@@ -1,0 +1,114 @@
+<div class="ingredients">
+  <div class="wrapper">
+    <div class="ingredients__header">
+      <img src="{{ section.settings.ingredients_header_image | img_url: '1440x1440' }}" data-rjs="{{ section.settings.ingredients_header_image | img_url: 'master' }}" alt="Ingredients Headline">
+      <p>{{ section.settings.ingredients_header_text }}</p>
+    </div>
+
+    <div class="grid-uniform">
+      {% for block in section.blocks %}
+        <div class="grid__item small--one-half medium--one-third large--one-quarter">
+          {% style %}
+            .ingredient--{{ forloop.index }}:hover .ingredient__name {
+              background-color: {{ block.settings.ingredient_color | color_darken: 10 }} !important;
+            }
+          {% endstyle %}
+
+          <div class="ingredient ingredient--{{ forloop.index }}">
+            <a class="popup-trigger" data-color="{{ block.settings.ingredient_color }}" href="#{{ block.settings.ingredient_name | handleize }}" data-effect="mfp-zoom-in">
+              <img src="{{ block.settings.ingredient_image | img_url: '312x384' }}" data-rjs="{{ block.settings.ingredient_image | img_url: '624x768' }}" alt="{{ block.settings.ingredient_name }}">
+              <span class="ingredient__name" style="background-color: {{ block.settings.ingredient_color }};">{{ block.settings.ingredient_name }}</span>
+            </a>
+
+            <div id="{{ block.settings.ingredient_name | handleize }}" class="ingredient__details popup mfp-hide mfp-with-anim">
+              <div class="grid--full">
+                <div class="grid__item one-third small--hide">
+                  <div class="ingredient__details-image" style="background-image: url('{{ block.settings.ingredient_image | img_url: 'master' }}');"></div>
+                </div>
+
+                <div class="grid__item medium--two-thirds large--two-thirds">
+                  <div class="ingredient__details-content">
+                    <div class="display-table">
+                      <div class="display-table-cell">
+                        <h3 style="color: {{ block.settings.ingredient_light_color }};">{{ block.settings.ingredient_name }}</h3>
+                        <div class="divider" style="background-color: {{ block.settings.ingredient_light_color }};"></div>
+                        <p>{{ block.settings.ingredient_description }}</p>
+                        <a href="/collections/{{ block.settings.ingredient_collection }}" class="btn" style="background-color: {{ block.settings.ingredient_light_color }};">Shop this ingredient</a>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      {% endfor %}
+    </div>
+  </div>
+</div>
+
+{% assign general_background_color = section.settings.ingredients_header_color %}
+{% assign general_button_color = section.settings.ingredients_header_color %}
+{% include 'color-scheme' with general_background_color: general_background_color, general_button_color: general_button_color %}
+
+{% schema %}
+  {
+    "name": "Ingredients",
+    "settings": [
+      {
+        "type": "image_picker",
+        "id": "ingredients_header_image",
+        "label": "Header Image"
+      },
+      {
+        "type": "textarea",
+        "id": "ingredients_header_text",
+        "label": "Header Text"
+      },
+      {
+        "type": "color",
+        "id": "ingredients_header_color",
+        "label": "Header Color"
+      }
+    ],
+    "blocks": [
+      {
+        "type": "ingredient",
+        "name": "Ingredient",
+        "settings": [
+          {
+            "type": "image_picker",
+            "id": "ingredient_image",
+            "label": "Image",
+            "info": "Dimensions 624 x 768"
+          },
+          {
+            "type": "text",
+            "id": "ingredient_name",
+            "label": "Name"
+          },
+          {
+            "type": "textarea",
+            "id": "ingredient_description",
+            "label": "Description"
+          },
+          {
+            "type": "collection",
+            "id": "ingredient_collection",
+            "label": "Collection"
+          },
+          {
+            "type": "color",
+            "id": "ingredient_color",
+            "label": "Color"
+          },
+          {
+            "type": "color",
+            "id": "ingredient_light_color",
+            "label": "Light Color"
+          }
+        ]
+      }
+    ]
+  }
+{% endschema %}

@@ -1,0 +1,79 @@
+{% assign general_button_color = '#24a686' %}
+{% assign general_background_color = '#E5FDE9' %}
+
+<div class="contact">
+  <img class="contact__asterisk" src="{{ 'contact-asterisk.png' | asset_url | replace: '.jpg','_234x443' }}" data-rjs="{{ 'contact-asterisk.png' | asset_url }}">
+
+  <div class="wrapper">
+    <div class="grid--full">
+      <div class="grid__item medium--one-third large--three-twelfths push--large--two-twelfths">
+        <div class="contact__sidebar">
+          <div>
+            <h5>FAQ</h5>
+            <p>Check <a href="/pages/faq">here</a> if we have your questions!</p>
+          </div>
+
+          <div>
+            <h5>Email us</h5>
+            <a href="mailto:support@asutra.com">support@asutra.com </a>
+          </div>
+
+          <div>
+          <h5>Call us</h5>
+            <p>(773) 628-7751</p>
+            <p>1-888-819-6472</p>
+            <p>Monday through Friday <br> 9am to 5pm CT</p>
+          </div>
+
+          <div>
+            <h5>Write us</h5>
+            <p>
+              Asutra
+              <br>
+              4159 West Montrose Avenue
+              <br>
+              Chicago, IL 60641
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <div class="grid__item medium--two-thirds large--five-twelfths push--large--two-twelfths">
+        <div class="contact__form">
+          <h1>We’re here to help!</h1>
+
+          {% form 'contact' %}
+            {% if form.posted_successfully? %}
+              <p class="note form-success">
+                {{ 'contact.form.post_success' | t }}
+              </p>
+          <script>
+          window.dataLayer=window.dataLayer || [];
+          dataLayer.push({
+          
+            'event':"form_success",
+            'status':"Success",
+            'type':'contactUs'
+          });
+      </script>
+            {% endif %}
+
+            {{ form.errors | default_errors }}
+
+            <label for="ContactFormEmail" class="hidden-label">{{ 'contact.form.email' | t }}</label>
+            <input type="email" id="ContactFormEmail" class="input-full" name="contact[email]" placeholder="{{ 'contact.form.email' | t }}" autocorrect="off" autocapitalize="off" value="{% if form.email %}{{ form.email }}{% elsif customer %}{{ customer.email }}{% endif %}">
+
+            {% assign name_attr = 'contact.form.phone' | t | handle %}
+            <label for="ContactFormPhone" class="hidden-label">{{ 'contact.form.phone' | t }}</label>
+            <input type="tel" id="ContactFormPhone" class="input-full" name="contact[{{ name_attr }}]" placeholder="{{ 'contact.form.phone' | t }}" pattern="[0-9\-]*" value="{% if form[name_attr] %}{{ form[name_attr] }}{% elsif customer %}{{ customer.phone }}{% endif %}">
+
+            <label for="ContactFormMessage" class="hidden-label">{{ 'contact.form.message' | t }}</label>
+            <textarea rows="10" id="ContactFormMessage" class="input-full" name="contact[body]" placeholder="{{ 'contact.form.message' | t }}">{% if form.body %}{{ form.body }}{% endif %}</textarea>
+
+            <button type="submit" class="btn btn--full">{{ 'contact.form.send' | t }}</button>
+          {% endform %}
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

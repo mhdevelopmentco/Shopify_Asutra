@@ -1,0 +1,115 @@
+<div class="bragbar">
+  <div class="wrapper">
+    <div class="grid">
+      <div class="grid__item one-whole large--five-sixths push--large--one-twelfth">
+        <div class="bragbar__quotes" data-bragbar-quotes>
+          {% for block in section.blocks %}
+            <div class="bragbar__quote text-center" data-bragbar-quote data-bragbar-index="{{ forloop.index0 }}">
+              <span class="bragbar__quote-icon">
+                <svg width="48px" height="36px" viewBox="0 0 48 36" version="1.1" fill="#24A686" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+                  <path d="M16.6355259,2.07279122 L16.5957474,2.09745561 C6.74390035,8.04758108 2,15.1273105 2,23.3625855 C2,29.9018812 5.94818767,34 11.1752343,34 C16.4439688,34 19.72382,30.5093012 19.72382,24.9292071 C19.72382,20.3458013 17.1705912,17.1117116 14.2040361,17.1117116 C11.5602848,17.1117116 10.6538894,15.2384944 10.8569138,12.6082016 C11.203557,9.25731707 12.5685224,7.33898732 17.385246,2.52226371 C17.4875264,2.41998333 17.48676,2.40663138 17.3266076,2.23562121 C17.1001416,1.99380156 16.8389135,1.94336271 16.6355259,2.07279122 Z M15.5617749,0.385468246 C17.8594866,-1.07671194 20.783847,1.95208988 18.7994596,3.93647728 C14.9351262,7.80081063 13.1596217,9.78519803 12.8462974,12.8139999 C12.7418559,14.1717386 12.9507388,15.1117116 14.2040361,15.1117116 C18.2772524,15.1117116 21.72382,19.1849278 21.72382,24.9292071 C21.72382,31.509018 17.6506037,36 11.1752343,36 C5.32651355,36 0,31.509018 0,23.3625855 C0,14.4850629 5.01318922,6.75639621 15.5617749,0.385468246 Z M42.5031464,2.09386536 C32.645378,8.04758108 27.9014776,15.1273105 27.9014776,23.3625855 C27.9014776,29.9018812 31.8496653,34 37.0767119,34 C42.3454464,34 45.6252976,30.5093012 45.6252976,24.9292071 C45.6252976,20.3458013 43.0720689,17.1117116 40.1055138,17.1117116 C37.4617624,17.1117116 36.555367,15.2384944 36.7583914,12.6082016 C37.1050347,9.25731707 38.47,7.33898732 43.2867237,2.52226371 C43.4038543,2.40513305 43.4029222,2.38309575 43.2556511,2.22312887 C43.0389868,1.98778659 42.7639233,1.93513158 42.5031464,2.09386536 Z M41.4632525,0.385468246 C43.8654057,-1.07671194 46.6853246,1.95208988 44.7009372,3.93647728 C40.8366039,7.80081063 39.0610993,9.78519803 38.747775,12.8139999 C38.6433336,14.1717386 38.8522165,15.1117116 40.1055138,15.1117116 C44.17873,15.1117116 47.6252976,19.1849278 47.6252976,24.9292071 C47.6252976,31.509018 43.5520814,36 37.0767119,36 C31.2279912,36 25.9014776,31.509018 25.9014776,23.3625855 C25.9014776,14.4850629 30.9146669,6.75639621 41.4632525,0.385468246 Z" id="“"></path>
+                </svg>
+              </span>
+              <p>{{ block.settings.brag_content }}</p>
+            </div>
+          {% endfor %}
+        </div>
+        <div class="bragbar__attributions" data-bragbar-attributions>
+          {% for block in section.blocks %}
+            <div class="bragbar__attribution text center" data-bragbar-attribution data-bragbar-index="{{ forloop.index0 }}">
+              <img src="{{ block.settings.brag_image | img_url: '160x' }}" data-rjs="{{ block.settings.brag_image | img_url: '360x' }}" alt="{{ block.settings.brag_image.alt }}">
+            </div>
+          {% endfor %}
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+// Jquery Picker
+(function( $ ){
+  $.fn.pick = function(how_many) {
+
+    var how_many = how_many || 4;
+
+    // Picking random numbers without repeating.
+    var index_array = [];
+    var original_obj_size = this.size();
+    for (var i=0; i<original_obj_size; i++) {
+      index_array.push(i);
+    }
+    //+ Jonas Raoni Soares Silva
+    //@ http://jsfromhell.com/array/shuffle [rev. #1]
+    var shuffle = function(v) {
+      for (var j, x, i = v.length; i; j = parseInt(Math.random() * i), x = v[--i], v[i] = v[j], v[j] = x);
+      return v;
+    };
+    var new_index_array = shuffle(index_array).slice(0,how_many);
+
+    // Ditching unpicked elements and removing those from the returned set.
+    return this.each(function(i) {
+       if ($.inArray(i,new_index_array) === -1) {
+          $(this).remove();
+       }
+    }).filter(function() {
+      if (this.parentNode === null) {
+        return false;
+      }
+      else {
+        return true;
+      }
+    });
+
+  };
+})( jQuery );
+//<![CDATA[
+jQuery(function() {
+  jQuery('[data-bragbar-attribution]').pick(5);
+  var indexArr = [];
+  $('[data-bragbar-attribution]').each(function(){
+    var index = $(this).attr('data-bragbar-index');
+    indexArr.push(index);
+  });
+  $('[data-bragbar-quote]').each(function(){
+    var index = $(this).attr('data-bragbar-index');
+    if(indexArr.indexOf(index) <= -1){
+      $(this).remove();
+    }
+  });
+
+  if($('[data-bragbar-attributions]').hasClass('slick-initialized') || $('[data-bragbar-quotes]').hasClass('slick-initialized')){
+    $('[data-bragbar-attributions]').slick('reinit');
+    $('[data-bragbar-quotes]').slick('reinit');
+  }
+
+});
+//]]>
+</script>
+
+{% schema %}
+  {
+    "name": "Brag Bar",
+    "settings": [
+    ],
+    "blocks": [
+      {
+        "type": "brag-bar-quote",
+        "name": "Brag Bar Quote",
+        "limit": 10,
+        "settings": [
+          {
+            "type":"textarea",
+            "id":"brag_content",
+            "label":"Quote Content"
+          },
+          {
+            "type":"image_picker",
+            "id":"brag_image",
+            "label":"Quote Logo"
+          }
+        ]
+      }
+    ]
+  }
+{% endschema %}

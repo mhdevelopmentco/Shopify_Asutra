@@ -1,0 +1,79 @@
+<div class="form-horizontal">
+  <div class="collection__sorting">
+    <div class="collection__sorting-title" data-sorting-title>
+      <h4>{{ 'collections.sorting.title' | t }}</h4>
+      <span class="filter-closed icon icon-chevron-down"></span>
+    </div>
+    <ul class="sort-menu" data-sorting>
+      <li data-val="manual"><span>Featured</span></li>
+      <li data-val="best-selling"><span>Best Selling</span></li>
+      <li data-val="title-ascending"><span>A to Z</span></li>
+      <li data-val="title-descending"><span>Z to A</span></li>
+      <li data-val="price-ascending"><span>Low to High</span></li>
+      <li data-val="price-descending"><span>High to Low</span></li>
+      <li data-val="created-descending"><span>New to Old</span></li>
+      <li data-val="created-ascending"><span>Old to New</span></li>
+    </ul>
+  </div>
+</div>
+
+<script>
+  var getUrlParameter = function getUrlParameter(sParam) {
+		var sPageURL = decodeURIComponent(window.location.search.substring(1)),
+			sURLVariables = sPageURL.split('&'),
+			sParameterName,
+			i;
+
+		for (i = 0; i < sURLVariables.length; i++) {
+			sParameterName = sURLVariables[i].split('=');
+
+			if (sParameterName[0] === sParam) {
+				return sParameterName[1] === undefined ? true : sParameterName[1];
+			}
+		}
+	};
+
+  var sort = getUrlParameter('sort_by');
+
+  $('[data-sorting] li').each(function(){
+  	if($(this).attr('data-val') == sort ){
+  		var title = $(this).text();
+  		$(this).parent().prev('[data-sorting-title]').find('h4').text(title);
+  	}
+  });
+
+  $('[data-sorting-title]').on('click', function(){
+		if($(this).next('[data-sorting]').is(':visible')){
+			$(this).next('[data-sorting]').slideUp('fast');
+      $(this).find('.icon').addClass('filter-closed icon-chevron-down').removeClass('filter-open icon-chevron-up');
+		}else{
+			$(this).next('[data-sorting]').slideDown('fast');
+      $(this).find('.icon').addClass('filter-open icon-chevron-up').removeClass('filter-closed icon-chevron-down');
+		}
+	});
+
+	$(document).mouseup(function(e){
+    if (!$('[data-sorting-title]').is(e.target) && $('[data-sorting-title]').has(e.target).length === 0){
+      $('[data-sorting-title]').next('[data-sorting]').slideUp();
+      $('[data-sorting-title]').find('.icon').addClass('filter-closed icon-chevron-down').removeClass('filter-open icon-chevron-up');
+    }
+	});
+
+  Shopify.queryParams = {};
+  if (location.search.length) {
+    for (var aKeyValue, i = 0, aCouples = location.search.substr(1).split('&'); i < aCouples.length; i++) {
+      aKeyValue = aCouples[i].split('=');
+      if (aKeyValue.length > 1) {
+        Shopify.queryParams[decodeURIComponent(aKeyValue[0])] = decodeURIComponent(aKeyValue[1]);
+      }
+    }
+  }
+
+  $(document).ready(function() {
+    $('[data-sorting] li').on('click', function() {
+        Shopify.queryParams.sort_by = jQuery(this).attr('data-val');
+        location.search = jQuery.param(Shopify.queryParams);
+      }
+    );
+  });
+</script>

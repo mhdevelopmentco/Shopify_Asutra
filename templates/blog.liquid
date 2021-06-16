@@ -1,0 +1,111 @@
+{% paginate blog.articles by 9 %}
+  <div class="blog__wrapper wrapper">
+    <div class="blog__header">
+      <img src="{{ 'asutra-life_1440x1440.png' | asset_url }}" data-rjs="{{ 'asutra-life.png' | asset_url }}" alt="Asutra Life Header">
+    </div>
+
+    <div class="blog__intro">
+      <div class="grid blog__grid">
+        <div class="blog__controls grid__item medium--three-twelfths large--three-twelfths">
+          <h4>Popular Topics</h4>
+          <ul>
+            {% for link in linklists.blog-sidebar.links %}
+              <li><a {% if link.active %}class="active"{% endif %} href="{{ link.url }}">{{ link.title }}</a></li>
+            {% endfor %}
+          </ul>
+        </div>
+
+        <div class="grid__item medium--nine-twelfths large--nine-twelfths">
+          {% for article in blog.articles %}
+            {% if forloop.index == 1 %}
+              {% capture button_color %}{% endcapture %}
+              {% for tag in article.tags %}
+                {% if tag contains 'button-color-' %}
+                  {% capture button_color %}{{ tag | remove: 'button-color-' }}{% endcapture %}
+                {% endif %}
+              {% endfor %}
+
+              <div class="blog__article blog__article--featured">
+                <a class="blog__article-image-wrapper" href="{{ article.url }}">
+                  <div class="blog__article-image blog__article-image--{{ forloop.index }}" style="background-image: url('{{ article.image.src | img_url: '1024x1024' }}')"></div>
+
+                  {% capture button_color %}{% endcapture %}
+                  {% for tag in article.tags %}
+                    {% if tag contains 'button-color-' %}
+                      {% capture button_color %}{{ tag | remove: 'button-color-' }}{% endcapture %}
+                    {% endif %}
+                  {% endfor %}
+
+                  <div class="marble" style="background-image: url('{{ article.metafields.c_f.marble }}');"></div>
+                </a>
+
+                <div class="blog__article-content">
+                  <h3><a href="{{ article.url }}" style="color: {{ button_color }};">{{ article.title }}</a></h3>
+
+                  <div class="rte">
+                    {{ article.excerpt | strip_html }}
+                  </div>
+
+                  <a class="blog__article-read-more" href="{{ article.url }}" style="color: {{ button_color }};">{{ 'blogs.article.read_more' | t }}</a>
+                </div>
+              </div>
+            {% endif %}
+          {% endfor %}
+        </div>
+      </div>
+    </div>
+
+    <img class="blog__asterisk" src="{{ 'blog-asterisk.png' | asset_url | replace: '.jpg','_234x443' }}" data-rjs="{{ 'blog-asterisk.png' | asset_url }}">
+
+    <div class="blog__grid grid-uniform">
+      {% for article in blog.articles %}
+        {% unless forloop.index == 1 %}
+          {% if forloop.index == 6 %}
+            <div class="grid__item small--hide medium--one-half large--one-half">
+              <div class="blog__priority">
+                <img src="{{ 'blog-priority-quotes.png' | asset_url }}" alt="Priority Quotes">
+                <h3>Make yourself <br> a priority</h3>
+              </div>
+            </div>
+          {% endif %}
+
+          <div class="grid__item medium--one-half large--one-half">
+            <div class="blog__article blog__article--{{ forloop.index }}">
+              <a class="blog__article-image-wrapper" href="{{ article.url }}">
+                <div class="blog__article-image blog__article-image--{{ forloop.index }}" style="background-image: url('{{ article.image.src | img_url: '1024x1024' }}')"></div>
+
+                {% capture button_color %}{% endcapture %}
+                {% for tag in article.tags %}
+                  {% if tag contains 'button-color-' %}
+                    {% capture button_color %}{{ tag | remove: 'button-color-' }}{% endcapture %}
+                  {% endif %}
+                {% endfor %}
+
+                <div class="marble" style="background-image: url('{{ article.metafields.c_f.marble }}');"></div>
+              </a>
+
+              <div class="blog__article-content">
+                <h3><a href="{{ article.url }}" style="color: {{ button_color }};">{{ article.title }}</a></h3>
+
+                <div class="rte">
+                  {{ article.excerpt | strip_html }}
+                </div>
+
+                <a class="blog__article-read-more" href="{{ article.url }}" style="color: {{ button_color }};">{{ 'blogs.article.read_more' | t }}</a>
+              </div>
+            </div>
+          </div>
+        {% endunless %}
+      {% endfor %}
+    </div>
+
+    {% if paginate.pages > 1 %}
+      <hr>
+      <div class="pagination">
+        {{ paginate | default_pagination | replace: '&laquo; Previous', '&larr;' | replace: 'Next &raquo;', '&rarr;' }}
+      </div>
+    {% endif %}
+  </div>
+{% endpaginate %}
+
+{% section 'instagram' %}

@@ -1,0 +1,54 @@
+<div class="featured-blog">
+  <div class="wrapper">
+    <h3>{{ section.settings.featured_blog_headline }}</h3>
+
+    <div class="featured-blog__carousel">
+      {% for article in blogs[section.settings.featured_blog].articles limit: 3 %}
+        <div class="blog__article blog__article--{{ article.title | handleize }}">
+          {% capture button_color %}{% endcapture %}
+          {% for tag in article.tags %}
+            {% if tag contains 'button-color-' %}
+              {% capture button_color %}{{ tag | remove: 'button-color-' }}{% endcapture %}
+            {% endif %}
+          {% endfor %}
+
+          <style>
+            .blog__article--{{ article.title | handleize }} h4 a:hover {
+              color: {{ button_color }};
+            }
+          </style>
+
+          <a href="{{ article.url }}">
+            <div class="blog__article-image" style="background-image: url('{{ article.image | img_url: '424x424' }}');" data-rjs="{{ article.image | img_url: '848x848' }}"></div>
+          </a>
+
+          <div class="blog__article-content">
+            <h4><a href="{{ article.url }}">{{ article.title }}</a></h4>
+            <p>{{ article.excerpt }}</p>
+          </div>
+
+          <a href="{{ article.url }}" class="btn" style="background-color: {{ button_color }};">Read more</a>
+          <div class="marble" style="background-image: url('{{ article.metafields.c_f.marble | replace: '.jpg','_424x48.jpg' }}');" data-rjs="{{ article.metafields.c_f.marble }}" alt="Blog marble"></div>
+        </div>
+      {% endfor %}
+    </div>
+  </div>
+</div>
+
+{% schema %}
+  {
+    "name": "Featured Blog",
+    "settings": [
+      {
+        "type": "text",
+        "id": "featured_blog_headline",
+        "label": "Headline"
+      },
+      {
+        "type": "blog",
+        "id": "featured_blog",
+        "label": "Blog"
+      }
+    ]
+  }
+{% endschema %}

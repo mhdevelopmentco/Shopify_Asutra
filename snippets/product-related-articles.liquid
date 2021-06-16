@@ -1,0 +1,81 @@
+{% if product.metafields.c_f.related-articles-headline != blank %}
+  <div class="product-single__articles featured-blog">
+    <div class="wrapper">
+      <h3>{{ product.metafields.c_f.related-articles-headline }}</h3>
+
+      <div class="featured-blog__carousel">
+        {% for i in (1..3) %}
+          {% capture related_article_handle %}related-article-{{ i }}{% endcapture %}
+          {% capture related_article %}asutra-life/{{ product.metafields.c_f[related_article_handle] }}{% endcapture %}
+
+          {% if product.metafields.c_f[related_article_handle] != blank %}
+            <div class="blog__article blog__article--{{ article.title | handleize }}">
+              {% capture button_color %}{% endcapture %}
+              {% for tag in article.tags %}
+                {% if tag contains 'button-color-' %}
+                  {% capture button_color %}{{ tag | remove: 'button-color-' }}{% endcapture %}
+                {% endif %}
+              {% endfor %}
+
+              <style>
+                .blog__article--{{ article.title | handleize }} h4 a:hover {
+                  color: {{ button_color }};
+                }
+              </style>
+
+              <a href="{{ articles[related_article].url }}">
+                <div class="blog__article-image" style="background-image: url('{{ articles[related_article].image | img_url: '424x424' }}');" data-rjs="{{ articles[related_article].image | img_url: '848x848' }}"></div>
+              </a>
+
+              <div class="blog__article-content">
+                <h4><a href="{{ articles[related_article].url }}">{{ articles[related_article].title }}</a></h4>
+                <p>{{ articles[related_article].excerpt }}</p>
+              </div>
+
+              <a href="{{ articles[related_article].url }}" class="btn">Read more</a>
+
+              <div class="marble" style="background-image: url('{{ articles[related_article].metafields.c_f.marble | replace: '.jpg','_424x48.jpg' }}');" data-rjs="{{ articles[related_article].metafields.c_f.marble }}" alt="Blog marble"></div>
+            </div>
+          {% endif %}
+        {% endfor %}
+      </div>
+    </div>
+  </div>
+{% else %}
+  <div class="product-single__articles featured-blog">
+    <div class="wrapper">
+      <h3>Asutra Life</h3>
+
+      <div class="featured-blog__carousel">
+        {% for article in blogs.asutra-life.articles limit: 3 %}
+          <div class="blog__article blog__article--{{ article.title | handleize }}">
+            {% capture button_color %}{% endcapture %}
+            {% for tag in article.tags %}
+              {% if tag contains 'button-color-' %}
+                {% capture button_color %}{{ tag | remove: 'button-color-' }}{% endcapture %}
+              {% endif %}
+            {% endfor %}
+
+            <style>
+              .blog__article--{{ article.title | handleize }} h4 a:hover {
+                color: {{ button_color }};
+              }
+            </style>
+
+            <a href="{{ article.url }}">
+              <div class="blog__article-image" style="background-image: url('{{ article.image | img_url: '424x424' }}');" data-rjs="{{ article.image | img_url: '848x848' }}"></div>
+            </a>
+
+            <div class="blog__article-content">
+              <h4><a href="{{ article.url }}">{{ article.title }}</a></h4>
+              <p>{{ article.excerpt }}</p>
+            </div>
+
+            <a href="{{ article.url }}" class="btn" style="background-color: {{ button_color }};">Read more</a>
+            <img class="marble" src="{{ article.metafields.c_f.marble | replace: '.jpg','_424x48.jpg' }}" data-rjs="{{ article.metafields.c_f.marble }}" alt="Blog marble">
+          </div>
+        {% endfor %}
+      </div>
+    </div>
+  </div>
+{% endif %}

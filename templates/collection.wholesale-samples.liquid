@@ -1,0 +1,56 @@
+{% if customer and customer.tags contains 'wholesale-40' or customer.tags contains 'wholesale-50' %}
+  {% paginate collection.products by 60 %}
+    {% section 'collection-hero' %}
+
+    <div class="wrapper">
+      {% if collection.all_products_count >= 1 %}
+        <div class="collection__grid grid">
+          <div class="wholesale-samples grid__item medium--two-thirds large--two-thirds">
+            <ul class="wholesale-samples__filter">
+              <li class="active" data-filter="all">All</li>
+              <li data-filter="aromatherapy-mist">Aromatherapy mists</li>
+              <li data-filter="yoga-mat-cleaner">Yoga mat cleaners</li>
+              <li data-filter="bath-salt">Bath salts</li>
+              <li data-filter="body-scrub">Body scrubs</li>
+              <li data-filter="magnesium-healing">Magnesium healing</li>
+              <li data-filter="anti-aging-serum">Anti-aging serums</li>
+              <li data-filter="skincare">Skin care</li>
+            </ul>
+
+            <div class="grid">
+              {% for product in collection.products %}
+                {% include 'product-grid-item' with 'wholesale-samples' %}
+              {% endfor %}
+            </div>
+
+            {% if paginate.pages > 1 %}
+              <hr>
+              <div class="pagination">
+                {{ paginate | default_pagination | replace: '&laquo; Previous', '&larr;' | replace: 'Next &raquo;', '&rarr;' }}
+              </div>
+            {% endif %}
+          </div>
+
+          <div class="grid__item medium--one-third large--one-third">
+            <div class="wholesale-samples__cart">
+              <h3>Sample Pack</h3>
+              <h4 class="cart-total">{{ cart.total_price | money }}</h4>
+              <h5>The first 3 are free</h5>
+              <div class="grid-uniform"></div>
+              <a class="btn" href="/checkout">Checkout</a>
+            </div>
+          </div>
+        </div>
+      {% else %}
+        <h3 class="collection__empty text-center">{{ 'collections.general.no_matches' | t }}</h3>
+      {% endif %}
+    </div>
+
+    {% section 'collection-featured-blog' %}
+
+  {% endpaginate %}
+{% else %}
+  <script>
+    window.location.href = '/';
+  </script>
+{% endif %}

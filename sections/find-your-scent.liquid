@@ -1,0 +1,61 @@
+<div class="find-your-scent">
+  <div class="find-your-scent__header">
+    <div class="wrapper">
+      <h3>{{ section.settings.find_your_scent_headline }}</h3>
+    </div>
+  </div>
+
+  <div class="find-your-scent__carousel">
+    {% for block in section.blocks %}
+      <div class="find-your-scent__scent">
+        <a href="{{ collections[block.settings.scent_collection].url }}">
+          <div data-background="{{ block.settings.scent_image | img_url: '300x300' }}" style="background-color: {{ block.settings.scent_color }};">
+            <span>{{ block.settings.scent_name }}</span>
+          </div>
+        </a>
+      </div>
+    {% endfor %}
+  </div>
+</div>
+
+{% schema %}
+  {
+    "name": "Find Your Scent",
+    "settings": [
+      {
+        "type": "text",
+        "id": "find_your_scent_headline",
+        "label": "Headline"
+      }
+    ],
+    "blocks": [
+      {
+        "type": "scents",
+        "name": "Scent",
+        "settings": [
+          {
+            "type": "text",
+            "id": "scent_name",
+            "label": "Name"
+          },
+          {
+            "type": "color",
+            "id": "scent_color",
+            "label": "Color"
+          },
+          {
+            "type": "image_picker",
+            "id": "scent_image",
+            "label": "Image",
+            "info": "Dimensions 300 x 300"
+          },
+          {
+            "type": "collection",
+            "id": "scent_collection",
+            "label": "Collection"
+          }
+        ]
+      }
+    ]
+  }
+{% endschema %}

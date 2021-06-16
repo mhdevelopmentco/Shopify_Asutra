@@ -1,0 +1,21 @@
+{% style %}
+  .landing-collection h2,
+  .instagram h3 a,
+  .landing-blog h2,
+  .landing-reviews h2,
+  .landing-reviews h4,
+  .landing-reviews .icon-star,
+  .landing-reviews .featured-review__date,
+  .landing-blog .icon-chevron-right,
+  .landing-blog .icon-chevron-left,
+  .landing-reviews .icon-chevron-right,
+  .landing-reviews .icon-chevron-left{
+    color: {{ page.metafields.c_f['Page Heading Color'] }};
+  }
+{% endstyle %}
+
+{% include 'landing-hero' %}
+{% include 'landing-collection' %}
+{% include 'landing-reviews' %}
+{% include 'landing-blog' %}
+{% section 'instagram' %}

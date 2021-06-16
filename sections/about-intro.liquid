@@ -1,0 +1,24 @@
+<div class="about-intro">
+  <div class="wrapper">
+    <h3>{{ section.settings.about_intro_headline }}</h3>
+    <p>{{ section.settings.about_intro_content }}</p>
+  </div>
+</div>
+
+{% schema %}
+  {
+    "name": "About Intro",
+    "settings": [
+      {
+        "type": "text",
+        "id": "about_intro_headline",
+        "label": "Headline"
+      },
+      {
+        "type": "textarea",
+        "id": "about_intro_content",
+        "label": "Content"
+      }
+    ]
+  }
+{% endschema %}

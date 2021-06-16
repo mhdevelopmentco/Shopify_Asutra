@@ -1,0 +1,76 @@
+{% if section.settings.related_articles_headline != blank %}
+  <div class="featured-blog">
+    <div class="wrapper">
+      <h3>{{ section.settings.related_articles_headline }}</h3>
+
+      <div class="featured-blog__carousel">
+        {% for block in section.blocks %}
+          <div class="blog__article blog__article--{{ article.title | handleize }}">
+            {% capture button_color %}{% endcapture %}
+            {% for tag in article.tags %}
+              {% if tag contains 'button-color-' %}
+                {% capture button_color %}{{ tag | remove: 'button-color-' }}{% endcapture %}
+              {% endif %}
+            {% endfor %}
+
+            <style>
+              .blog__article--{{ article.title | handleize }} h4 a:hover {
+                color: {{ button_color }};
+              }
+            </style>
+
+            <a href="{{ articles[block.settings.related_article].url }}">
+              <div class="blog__article-image" style="background-image: url('{{ articles[block.settings.related_article].image | img_url: '424x424' }}');" data-rjs="{{ articles[block.settings.related_article].image | img_url: '848x848' }}"></div>
+            </a>
+
+            <div class="blog__article-content">
+              <h4><a href="{{ articles[block.settings.related_article].url }}">{{ articles[block.settings.related_article].title }}</a></h4>
+              <p>{{ articles[block.settings.related_article].excerpt }}</p>
+            </div>
+
+            <a href="{{ articles[block.settings.related_article].url }}" class="btn">Read more</a>
+
+            {% if forloop.index == 1 %}
+              <img class="marble" src="{{ 'blog-marble-1.jpg' | asset_url | replace: '.jpg','_424x48.jpg' }}" data-rjs="{{ 'blog-marble-1.jpg' | asset_url }}" alt="Blog marble">
+            {% endif %}
+
+            {% if forloop.index == 2 %}
+              <img class="marble" src="{{ 'blog-marble-2.jpg' | asset_url | replace: '.jpg','_424x48.jpg' }}" data-rjs="{{ 'blog-marble-2.jpg' | asset_url }}" alt="Blog marble">
+            {% endif %}
+
+            {% if forloop.index == 3 %}
+              <img class="marble" src="{{ 'blog-marble-3.jpg' | asset_url | replace: '.jpg','_424x48.jpg' }}" data-rjs="{{ 'blog-marble-3.jpg' | asset_url }}" alt="Blog marble">
+            {% endif %}
+          </div>
+        {% endfor %}
+      </div>
+    </div>
+  </div>
+{% endif %}
+
+{% schema %}
+  {
+    "name": "Related Articles",
+    "settings": [
+      {
+        "type": "text",
+        "id": "related_articles_headline",
+        "label": "Headline"
+      }
+    ],
+    "blocks": [
+      {
+        "type": "related_article",
+        "name": "Related Article",
+        "limit": 3,
+        "settings": [
+          {
+            "type": "article",
+            "id": "related_article",
+            "label": "Related Article"
+          }
+        ]
+      }
+    ]
+  }
+{% endschema %}

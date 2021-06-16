@@ -1,0 +1,14 @@
+{% if product.metafields.c_f.related-products-headline != blank %}
+  <div class="product-single__related">
+    <div class="wrapper">
+      <h3 class="product-single__related-headline">{{ product.metafields.c_f.related-products-headline }}</h3>
+      <div class="grid-uniform">
+        {% capture related_products %}{{ product.metafields.c_f.related-products }}{% endcapture %}
+        {% assign related_products_count = related_products | split: ',' %}
+        {% for i in related_products_count %}
+          {% include 'related-grid-item' %}
+        {% endfor %}
+      </div>
+    </div>
+  </div>
+{% endif %}

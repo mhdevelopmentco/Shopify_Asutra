@@ -1,0 +1,60 @@
+<div class="about-images">
+  {% for block in section.blocks %}
+    <img class="about-images__sticky about-images__sticky--{{ forloop.index }} {% if forloop.index == 1 %}active{% endif %} small--hide hide" src="{{ block.settings.about_image | img_url: '820x600' }}" data-rjs="{{ block.settings.about_image | img_url: '1640x1200' }}" alt="{{ block.settings.about_image_headline }}">
+
+    <div class="about-image about-image--{{ forloop.index }}">
+      <div class="grid--full">
+        <div class="grid__item medium--one-half large--one-half">
+          <img {% unless forloop.first %}class="hidden"{% endunless %} src="{{ block.settings.about_image | img_url: '820x600' }}" data-rjs="{{ block.settings.about_image | img_url: '1640x1200' }}" alt="{{ block.settings.about_image_headline }}">
+        </div>
+      </div>
+
+      <div class="about-image__content">
+        <div class="wrapper">
+          <div class="grid">
+            <div class="grid__item medium--one-half push--medium--one-half large--one-half push--large--one-half">
+              <h3 style="color: {{ block.settings.about_image_headline_color }};">{{ block.settings.about_image_headline }}</h3>
+              <p>{{ block.settings.about_image_content }}</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  {% endfor %}
+</div>
+
+{% schema %}
+  {
+    "name": "About Images",
+    "blocks": [
+      {
+        "type": "image_section",
+        "name": "Image Section",
+        "limit": 6,
+        "settings": [
+          {
+            "type": "image_picker",
+            "id": "about_image",
+            "label": "Image",
+            "info": "Dimensions 1640 x 1200"
+          },
+          {
+            "type": "text",
+            "id": "about_image_headline",
+            "label": "Headline"
+          },
+          {
+            "type": "textarea",
+            "id": "about_image_content",
+            "label": "Content"
+          },
+          {
+            "type": "color",
+            "id": "about_image_headline_color",
+            "label": "Headline Color"
+          }
+        ]
+      }
+    ]
+  }
+{% endschema %}

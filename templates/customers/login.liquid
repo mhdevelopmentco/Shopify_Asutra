@@ -1,0 +1,84 @@
+{% assign general_button_color = '#6C6AC1' %}
+{% assign general_background_color = '#9C9AF5' %}
+
+<div class="account">
+  <img class="account__asterisk" src="{{ 'account-asterisk.png' | asset_url | replace: '.jpg','_234x443' }}" data-rjs="{{ 'account-asterisk.png' | asset_url }}">
+
+  <div class="wrapper">
+    <div class="grid">
+      <div class="grid__item large--one-half push--large--one-quarter text-center">
+        <div class="account__form">
+          <div class="note form-success" id="ResetSuccess" style="display:none;">
+            {{ 'customer.recover_password.success' | t }}
+          </div>
+
+          <div id="CustomerLoginForm" class="form-vertical">
+            {% form 'customer_login' %}
+              <h1>{{ 'customer.login.title' | t }}</h1>
+
+              {{ form.errors | default_errors }}
+
+              <label for="CustomerEmail" class="hidden-label">{{ 'customer.login.email' | t }}</label>
+              <input type="email" name="customer[email]" id="CustomerEmail" class="input-full{% if form.errors contains 'email' %} error{% endif %}" placeholder="{{ 'customer.login.email' | t }}" autocorrect="off" autocapitalize="off" autofocus>
+
+              {% if form.password_needed %}
+                <label for="CustomerPassword" class="hidden-label">{{ 'customer.login.password' | t }}</label>
+                <input type="password" value="" name="customer[password]" id="CustomerPassword" class="input-full{% if form.errors contains 'password' %} error{% endif %}" placeholder="{{ 'customer.login.password' | t }}">
+              {% endif %}
+
+              <button type="submit" class="btn btn--full">{{ 'customer.login.sign_in' | t }}</button>
+
+              <span class="account__continue">or continue with</span>
+
+              <div class="one-click-social-login"></div>
+
+              {% if form.password_needed %}
+                <p><a href="#recover" id="RecoverPassword" class="account__forgot">{{ 'customer.login.forgot_password' | t }}</a></p>
+              {% endif %}
+
+              <p>{{ 'layout.customer.create_account' | t | customer_register_link }}</p>
+            {% endform %}
+          </div>
+
+          <div id="RecoverPasswordForm" style="display: none;">
+            <h2>{{ 'customer.recover_password.title' | t }}</h2>
+            <p class="account__reset-password-message">{{ 'customer.recover_password.subtext' | t }}</p>
+
+            <div class="form-vertical">
+              {% form 'recover_customer_password' %}
+
+                {{ form.errors | default_errors }}
+
+                {% if form.posted_successfully? %}
+                  <script>
+                    $(document).ready(function() {
+                      $('#ResetSuccess').show();
+                    });
+                  </script>
+                {% endif %}
+
+                <label for="RecoverEmail" class="hidden-label">{{ 'customer.recover_password.email' | t }}</label>
+                <input type="email" value="" name="email" id="RecoverEmail" class="input-full" placeholder="{{ 'customer.recover_password.email' | t }}" autocorrect="off" autocapitalize="off">
+
+                <p>
+                  <input type="submit" class="btn btn--full" value="{{ 'customer.recover_password.submit' | t }}">
+                </p>
+                <button type="button" id="HideRecoverPasswordLink" class="text-link">{{ 'customer.recover_password.cancel' | t }}</button>
+              {% endform %}
+            </div>
+          </div>
+
+          {% if shop.checkout.guest_login %}
+            <hr>
+
+            <h2>{{ 'customer.login.guest_title' | t }}</h2>
+
+            {% form 'guest_login' %}
+              <input type="submit" class="btn" value="{{ 'customer.login.guest_continue' | t }}">
+            {% endform %}
+          {% endif %}
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

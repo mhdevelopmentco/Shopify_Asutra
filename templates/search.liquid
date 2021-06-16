@@ -1,0 +1,154 @@
+{% paginate search.results by 48 %}
+
+  <div class="grid search__header">
+    <div class="grid__item large--two-thirds push--large--one-sixth">
+      {% if search.performed %}
+        {% if search.results_count == 0 %}
+          <h1 class="text-center">{{ 'general.search.no_results_html' | t: terms: search.terms }}</h1>
+        {% else %}
+          <h1 class="text-center">{{ 'general.search.results_for_html' | t: terms: search.terms }}</h1>
+        {% endif %}
+      {% else %}
+        <h1 class="text-center">{{ 'general.search.title' | t }}</h1>
+      {% endif %}
+      {% include 'search-bar' %}
+    </div>
+  </div>
+
+  {% if search.performed %}
+    <hr class="hr--clear">
+    <div class="grid-uniform">
+      {% for item in search.results %}
+        {% unless item.tags contains 'wholesale-sample' %}
+          {% if item.object_type == 'article' %}
+            <div class="search__article blog__article blog__article--{{ item.title | handleize }} grid__item small--one-half medium--one-third large--one-quarter">
+              {% capture button_color %}{% endcapture %}
+              {% for tag in item.tags %}
+                {% if tag contains 'button-color-' %}
+                  {% capture button_color %}{{ tag | remove: 'button-color-' }}{% endcapture %}
+                {% endif %}
+              {% endfor %}
+
+              <style>
+                .blog__article--{{ item.title | handleize }} h4 a:hover {
+                  color: {{ button_color }};
+                }
+              </style>
+
+              <a href="{{ item.url }}">
+                <div class="blog__article-image" style="background-image: url('{{ item.image | img_url: '424x424' }}');" data-rjs="{{ item.image | img_url: '848x848' }}"></div>
+              </a>
+
+              <div class="blog__article-content">
+                <h4><a href="{{ item.url }}">{{ item.title }}</a></h4>
+                <p>{{ item.excerpt }}</p>
+              </div>
+
+              <a href="{{ item.url }}" class="btn" style="background-color: {{ button_color }};">Read more</a>
+              <div class="marble" style="background-image: url('{{ item.metafields.c_f.marble | replace: '.jpg','_424x48.jpg' }}');" data-rjs="{{ item.metafields.c_f.marble }}" alt="Blog marble"></div>
+            </div>
+          {% else %}
+
+            {% capture background_color %}{% endcapture %}
+            {% capture button_color %}{% endcapture %}
+            {% assign new = false %}
+
+            {% for tag in item.tags %}
+              {% if tag contains 'background-color-' %}
+                {% capture background_color %}{{ tag | remove: 'background-color-' }}{% endcapture %}
+              {% endif %}
+
+              {% if tag contains 'button-color-' %}
+                {% capture button_color %}{{ tag | remove: 'button-color-' }}{% endcapture %}
+              {% endif %}
+
+              {% if tag contains 'new' %}
+                {% assign new = true %}
+              {% endif %}
+            {% endfor %}
+
+            <div class="collection__item collection__item--{{ item.handle }} grid__item small--one-half medium--one-third large--one-quarter">
+              <div class="collection__item-image-wrapper {% if hover_image != blank %}has-hover{% endif %}">
+                <a href="{{ item.url | within: collection }}" class="grid__image">
+                  <img class="collection__item-standard-image" src="{{ item.featured_image.src | img_url: '312x431' }}" data-rjs="{{ item.featured_image.src | img_url: '624x862' }}" alt="{{ item.featured_image.alt | escape }}">
+                  <img src="{{ 'collection-spacer.png' | asset_url }}">
+
+                  {% if new %}
+                    <div class="collection__item-badge" {% if button_color != blank %}style="background-color: {{ button_color }};"{% endif %}>
+                      <span>New</span>
+                    </div>
+                  {% endif %}
+                </a>
+              </div>
+
+              <div class="collection__item-content-wrapper">
+                <div class="collection__item-content">
+                  <h3>
+                    <a href="{{ item.url | within: collection }}">{{ item.title }}</a>
+                  </h3>
+
+                  <p {% if button_color != blank %}style="color: {{ button_color }};"{% endif %}>
+                    {% if item.available == false %}
+                      {{ 'products.product.sold_out' | t }}
+                    {% else %}
+                      {% if item.price_varies %}
+                        from
+                      {% endif %}
+
+                      {% if item.compare_at_price > item.price %}
+                        {{ item.price | money }}
+                        <s>{{ item.compare_at_price | money }}</s>
+                      {% else %}
+                        {{ item.price | money }}
+                      {% endif %}
+
+                      {% if item.type != blank %}
+                        &ndash; <span>{{ item.type }}</span>
+                      {% endif %}
+                    {% endif %}
+                  </p>
+                </div>
+
+                <form id="AddToCartForm" method="post" action="/cart/add">
+                  {% if item.available == false %}
+                    <button type="button" class="btn disabled">Sold out</button>
+                  {% else %}
+                    <div class="ro_widget hide"></div>
+                    <input type="hidden" name="id" value="{{ item.variants.first.id }}" />
+                    <button id="AddToCart" type="submit" class="btn"><span class="small--hide medium--hide">{{ item.price | money }} &ndash; </span> Add to bag</button>
+                  {% endif %}
+
+                  {%- comment -%}
+                    Need to use style tag here because the bold app replaces the add to cart button
+                  {%- endcomment -%}
+
+                  {% style %}
+                    .collection__item--{{ item.handle }} button {
+                      background-color: {{ button_color }};
+                    }
+
+                    .collection__item--{{ item.handle }} button:hover {
+                      background-color: {{ button_color | color_darken: 10 }};
+                    }
+
+                    .collection__item--{{ item.handle }}:hover .collection__item-image-wrapper {
+                      background-color: {{ background_color }};
+                    }
+                  {% endstyle %}
+                </form>
+              </div>
+            </div>
+          {% endif %}
+        {% endunless %}
+      {% endfor %}
+    </div>
+
+    {% if paginate.pages > 1 %}
+      <hr>
+      <div class="pagination">
+        {{ paginate | default_pagination | replace: '&laquo; Previous', '&larr;' | replace: 'Next &raquo;', '&rarr;' }}
+      </div>
+    {% endif %}
+  {% endif %}
+
+{% endpaginate %}

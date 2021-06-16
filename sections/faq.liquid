@@ -1,0 +1,371 @@
+<div class="faq__shipping">
+  <h3 id="shipping">Delivery and shipping</h3>
+  {% for block in section.blocks %}
+    {% if block.type == 'shipping_faq' %}
+      <h5>{{ block.settings.faq_headline }}</h5>
+      <div class="faq__content">
+        {{ block.settings.faq_content }}
+      </div>
+    {% endif %}
+  {% endfor %}
+</div>
+
+<div class="faq__returns">
+  <h3 id="returns">Returns and exchanges</h3>
+  {% for block in section.blocks %}
+    {% if block.type == 'returns_faq' %}
+      <h5>{{ block.settings.faq_headline }}</h5>
+      <div class="faq__content">
+        {{ block.settings.faq_content }}
+      </div>
+    {% endif %}
+  {% endfor %}
+</div>
+
+<div class="faq__products">
+  <h3 id="products">Product FAQ</h3>
+  {% for block in section.blocks %}
+    {% if block.type == 'product_faq' %}
+      <h5>{{ block.settings.faq_headline }}</h5>
+      <div class="faq__content">
+        {{ block.settings.faq_content }}
+      </div>
+    {% endif %}
+  {% endfor %}
+</div>
+
+<div class="faq__more">
+  <h3 id="more">More about Asutra</h3>
+  {% for block in section.blocks %}
+    {% if block.type == 'more_faq' %}
+      <h5>{{ block.settings.faq_headline }}</h5>
+      <div class="faq__content">
+        {{ block.settings.faq_content }}
+      </div>
+    {% endif %}
+  {% endfor %}
+</div>
+
+<div class="faq__aromatherapy-mists">
+  <h3 id="aromatherapy-mists">Aromatherapy Mists</h3>
+  {% for block in section.blocks %}
+    {% if block.type == 'aromatherapy_mists_faq' %}
+      <h5>{{ block.settings.faq_headline }}</h5>
+      <div class="faq__content">
+        {{ block.settings.faq_content }}
+      </div>
+    {% endif %}
+  {% endfor %}
+</div>
+
+<div class="faq__dead-sea-mud-masks">
+  <h3 id="dead-sea-mud-masks">Dead Sea Mud Masks</h3>
+  {% for block in section.blocks %}
+    {% if block.type == 'mud_masks_faq' %}
+      <h5>{{ block.settings.faq_headline }}</h5>
+      <div class="faq__content">
+        {{ block.settings.faq_content }}
+      </div>
+    {% endif %}
+  {% endfor %}
+</div>
+
+<div class="faq__foot-soaks">
+  <h3 id="foot-soaks">Foot Soaks</h3>
+  {% for block in section.blocks %}
+    {% if block.type == 'foot_soaks_faq' %}
+      <h5>{{ block.settings.faq_headline }}</h5>
+      <div class="faq__content">
+        {{ block.settings.faq_content }}
+      </div>
+    {% endif %}
+  {% endfor %}
+</div>
+
+<div class="faq__indian-healing-clay">
+  <h3 id="indian-healing-clay">Indian Healing Clay</h3>
+  {% for block in section.blocks %}
+    {% if block.type == 'indian_healing_clay_faq' %}
+      <h5>{{ block.settings.faq_headline }}</h5>
+      <div class="faq__content">
+        {{ block.settings.faq_content }}
+      </div>
+    {% endif %}
+  {% endfor %}
+</div>
+
+<div class="faq__magnesium-flakes">
+  <h3 id="magnesium-flakes">Magnesium Flakes</h3>
+  {% for block in section.blocks %}
+    {% if block.type == 'magnesium_flakes_faq' %}
+      <h5>{{ block.settings.faq_headline }}</h5>
+      <div class="faq__content">
+        {{ block.settings.faq_content }}
+      </div>
+    {% endif %}
+  {% endfor %}
+</div>
+
+<div class="faq__magnesium-oil-spray">
+  <h3 id="magnesium-oil-spray">Magnesium Oil Spray</h3>
+  {% for block in section.blocks %}
+    {% if block.type == 'magnesium_oil_spray_faq' %}
+      <h5>{{ block.settings.faq_headline }}</h5>
+      <div class="faq__content">
+        {{ block.settings.faq_content }}
+      </div>
+    {% endif %}
+  {% endfor %}
+</div>
+
+<div class="faq__silk-eye-pillow">
+  <h3 id="silk-eye-pillows">Silk Eye Pillows</h3>
+  {% for block in section.blocks %}
+    {% if block.type == 'silk_eye_pillow_faq' %}
+      <h5>{{ block.settings.faq_headline }}</h5>
+      <div class="faq__content">
+        {{ block.settings.faq_content }}
+      </div>
+    {% endif %}
+  {% endfor %}
+</div>
+
+<div class="faq__skin-serums">
+  <h3 id="skin-serums">Skin Serums</h3>
+  {% for block in section.blocks %}
+    {% if block.type == 'skin_serums_faq' %}
+      <h5>{{ block.settings.faq_headline }}</h5>
+      <div class="faq__content">
+        {{ block.settings.faq_content }}
+      </div>
+    {% endif %}
+  {% endfor %}
+</div>
+
+<div class="faq__yoga-mat-cleaners">
+  <h3 id="yoga-mat-cleaners">Yoga Mat Cleaners</h3>
+  {% for block in section.blocks %}
+    {% if block.type == 'yoga_mat_cleaners_faq' %}
+      <h5>{{ block.settings.faq_headline }}</h5>
+      <div class="faq__content">
+        {{ block.settings.faq_content }}
+      </div>
+    {% endif %}
+  {% endfor %}
+</div>
+
+{% schema %}
+  {
+    "name": "FAQ",
+    "blocks": [
+      {
+        "type": "shipping_faq",
+        "name": "Shipping FAQ",
+        "settings": [
+          {
+            "type": "text",
+            "id": "faq_headline",
+            "label": "Headline"
+          },
+          {
+            "type": "textarea",
+            "id": "faq_content",
+            "label": "Content"
+          }
+        ]
+      },
+      {
+        "type": "returns_faq",
+        "name": "Returns FAQ",
+        "settings": [
+          {
+            "type": "text",
+            "id": "faq_headline",
+            "label": "Headline"
+          },
+          {
+            "type": "textarea",
+            "id": "faq_content",
+            "label": "Content"
+          }
+        ]
+      },
+      {
+        "type": "product_faq",
+        "name": "Product FAQ",
+        "settings": [
+          {
+            "type": "text",
+            "id": "faq_headline",
+            "label": "Headline"
+          },
+          {
+            "type": "textarea",
+            "id": "faq_content",
+            "label": "Content"
+          }
+        ]
+      },
+      {
+        "type": "more_faq",
+        "name": "More FAQ",
+        "settings": [
+          {
+            "type": "text",
+            "id": "faq_headline",
+            "label": "Headline"
+          },
+          {
+            "type": "textarea",
+            "id": "faq_content",
+            "label": "Content"
+          }
+        ]
+      },
+      {
+        "type": "aromatherapy_mists_faq",
+        "name": "Aromatherapy Mists FAQ",
+        "settings": [
+          {
+            "type": "text",
+            "id": "faq_headline",
+            "label": "Headline"
+          },
+          {
+            "type": "textarea",
+            "id": "faq_content",
+            "label": "Content"
+          }
+        ]
+      },
+      {
+        "type": "mud_masks_faq",
+        "name": "Mud Masks FAQ",
+        "settings": [
+          {
+            "type": "text",
+            "id": "faq_headline",
+            "label": "Headline"
+          },
+          {
+            "type": "textarea",
+            "id": "faq_content",
+            "label": "Content"
+          }
+        ]
+      },
+      {
+        "type": "foot_soaks_faq",
+        "name": "Foot Soaks FAQ",
+        "settings": [
+          {
+            "type": "text",
+            "id": "faq_headline",
+            "label": "Headline"
+          },
+          {
+            "type": "textarea",
+            "id": "faq_content",
+            "label": "Content"
+          }
+        ]
+      },
+      {
+        "type": "indian_healing_clay_faq",
+        "name": "Indian Healing Clay FAQ",
+        "settings": [
+          {
+            "type": "text",
+            "id": "faq_headline",
+            "label": "Headline"
+          },
+          {
+            "type": "textarea",
+            "id": "faq_content",
+            "label": "Content"
+          }
+        ]
+      },
+      {
+        "type": "magnesium_flakes_faq",
+        "name": "Magnesium Flakes FAQ",
+        "settings": [
+          {
+            "type": "text",
+            "id": "faq_headline",
+            "label": "Headline"
+          },
+          {
+            "type": "textarea",
+            "id": "faq_content",
+            "label": "Content"
+          }
+        ]
+      },
+      {
+        "type": "magnesium_oil_spray_faq",
+        "name": "Magnesium Oil Spray FAQ",
+        "settings": [
+          {
+            "type": "text",
+            "id": "faq_headline",
+            "label": "Headline"
+          },
+          {
+            "type": "textarea",
+            "id": "faq_content",
+            "label": "Content"
+          }
+        ]
+      },
+      {
+        "type": "silk_eye_pillow_faq",
+        "name": "Silk Eye Pillow FAQ",
+        "settings": [
+          {
+            "type": "text",
+            "id": "faq_headline",
+            "label": "Headline"
+          },
+          {
+            "type": "textarea",
+            "id": "faq_content",
+            "label": "Content"
+          }
+        ]
+      },
+      {
+        "type": "skin_serums_faq",
+        "name": "Skin Serums FAQ",
+        "settings": [
+          {
+            "type": "text",
+            "id": "faq_headline",
+            "label": "Headline"
+          },
+          {
+            "type": "textarea",
+            "id": "faq_content",
+            "label": "Content"
+          }
+        ]
+      },
+      {
+        "type": "yoga_mat_cleaners_faq",
+        "name": "Yoga Mat Cleaners FAQ",
+        "settings": [
+          {
+            "type": "text",
+            "id": "faq_headline",
+            "label": "Headline"
+          },
+          {
+            "type": "textarea",
+            "id": "faq_content",
+            "label": "Content"
+          }
+        ]
+      }
+    ]
+  }
+{% endschema %}

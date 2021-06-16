@@ -1,0 +1,50 @@
+<div class="product-single__guarantees-wrapper">
+  <div class="wrapper">
+    <div class="product-single__guarantees">
+      {% if product.tags contains 'doctor-recommended' %}
+        <div class="product-single__guarantee">
+          <div>
+            <span class="icon icon-check"></span>
+            <span class="product-single__guarantee-text">Doctor<br>Recommended</span>
+          </div>
+        </div>
+      {% endif %}
+
+      {% if product.tags contains 'all-natural-ingredients' %}
+        <div class="product-single__guarantee">
+          <div>
+            <span class="icon icon-check"></span>
+            <span class="product-single__guarantee-text">All Natural <br> Ingredients</span>
+          </div>
+        </div>
+      {% endif %}
+
+      {% if product.tags contains 'not-tested-on-animals' %}
+        <div class="product-single__guarantee">
+          <div>
+            <span class="icon icon-check"></span>
+            <span class="product-single__guarantee-text">Not Tested <br> on Animals</span>
+          </div>
+        </div>
+      {% endif %}
+
+      {% if product.tags contains 'paraben-free' %}
+        <div class="product-single__guarantee">
+          <div>
+            <span class="icon icon-check"></span>
+            <span class="product-single__guarantee-text">Paraben <br> Free</span>
+          </div>
+        </div>
+      {% endif %}
+
+      {% unless product.handle contains 'gift-card' %}
+      <div class="product-single__guarantee">
+        <div>
+          <span class="icon icon-check"></span>
+          <span class="product-single__guarantee-text">Satisfaction <br> Guarantee</span>
+        </div>
+      </div>
+      {% endunless %}
+    </div>
+  </div>
+</div>

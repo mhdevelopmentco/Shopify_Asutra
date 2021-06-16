@@ -1,0 +1,19 @@
+<div class="landing-collection">
+  {% assign collection = collections[page.metafields.c_f['Collection Handle']] %}
+  <div class="wrapper">
+    <div class="grid">
+      <div class="grid__item one-whole">
+        <h2 class="text-center">
+          {% if page.metafields.c_f['Collection Title'] != blank %}
+            {{ page.metafields.c_f['Collection Title'] }}
+          {% else %}
+            {{ collection.title }}
+          {% endif %}
+        </h2>
+      </div>
+      {% for product in collection.products limit: 4 %}
+        {% include 'product-grid-item' %}
+      {% endfor %}
+    </div>
+  </div>
+</div>

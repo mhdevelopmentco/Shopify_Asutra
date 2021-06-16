@@ -1,0 +1,108 @@
+{% capture background_color %}{% endcapture %}
+{% capture button_color %}{% endcapture %}
+{% assign new = false %}
+
+{% for tag in all_products[i]..tags %}
+  {% if tag contains 'background-color-' %}
+    {% capture background_color %}{{ tag | remove: 'background-color-' }}{% endcapture %}
+  {% endif %}
+
+  {% if tag contains 'button-color-' %}
+    {% capture button_color %}{{ tag | remove: 'button-color-' }}{% endcapture %}
+  {% endif %}
+
+  {% if tag contains 'new' %}
+    {% assign new = true %}
+  {% endif %}
+{% endfor %}
+
+{% comment %}{% capture hover_image %}{% endcapture %}
+{% for image in all_products[i]..images %}
+  {% if image.alt contains 'hover' %}
+    {% capture hover_image %}<img class="collection__item-hover-image" src="{{ image.src | img_url: '312x431' }}" data-rjs="{{ image.src | img_url: '624x862' }}">{% endcapture %}
+    {% break %}
+  {% endif %}
+{% endfor %}{% endcomment %}
+
+{% if all_products[i].title != blank %}
+  <div class="collection__item collection__item--{{ all_products[i].handle }} grid__item {% if product-grid-item == 'article' %}one-half{% else %}small--one-half {% if template == 'collection' %}medium--one-third large--one-third{% else %}medium--one-quarter large--one-quarter{% endif %}{% endif %}">
+    <div class="collection__item-image-wrapper {% if hover_image != blank %}has-hover{% endif %}">
+      <a href="{{ all_products[i].url | within: collection }}" class="grid__image">
+        <img class="collection__item-standard-image" src="{{ all_products[i].featured_image.src | img_url: '312x431' }}" data-rjs="{{ all_products[i].featured_image.src | img_url: '624x862' }}" alt="{{ all_products[i].featured_image.alt | escape }}">
+
+        {% unless hover_image != blank %}
+          <img src="{{ 'collection-spacer.png' | asset_url }}">
+        {% endunless %}
+
+        {{ hover_image }}
+
+        {% if all_products[i].compare_at_price > all_products[i].price %}
+          <div class="collection__item-badge" {% if button_color != blank %}style="background-color: {{ button_color }};"{% endif %}>
+            <span>Sale</span>
+          </div>
+        {% elsif new %}
+          <div class="collection__item-badge" {% if button_color != blank %}style="background-color: {{ button_color }};"{% endif %}>
+            <span>New</span>
+          </div>
+        {% endif %}
+      </a>
+    </div>
+
+    <div class="collection__item-content-wrapper">
+      <div class="collection__item-content">
+        <h3>
+          <a href="{{ all_products[i].url | within: collection }}">{{ all_products[i].title }}</a>
+        </h3>
+
+        <p {% if button_color != blank %}style="color: {{ button_color }};"{% endif %}>
+          {% if all_products[i].available == false %}
+            {{ 'products.product.sold_out' | t }}
+          {% else %}
+          {% if all_products[i].price_varies %}
+            from
+          {% endif %}
+
+            {% if all_products[i].compare_at_price > all_products[i].price %}
+              {{ all_products[i].price | money }}
+              <s>{{ all_products[i].compare_at_price | money }}</s>
+            {% else %}
+              {{ all_products[i].price | money }}
+            {% endif %}
+
+            {% if all_products[i].type != blank %}
+              &ndash; <span>{{ all_products[i].type }}</span>
+            {% endif %}
+          {% endif %}
+        </p>
+      </div>
+
+      <form id="AddToCartForm" method="post" action="/cart/add">
+        {% if all_products[i].available == false %}
+          <button type="button" class="btn disabled">Sold out</button>
+        {% else %}
+          <div class="ro_widget hide"></div>
+          <input type="hidden" name="id" value="{{ all_products[i].variants.first.id }}" />
+          <button id="AddToCart" type="submit" class="btn"><span class="small--hide medium--hide">{{ all_products[i].price | money }} &ndash; </span> Add to bag</button>
+        {% endif %}
+
+        {%- comment -%}
+          Need to use style tag here because the bold app replaces the add to cart button
+        {%- endcomment -%}
+
+        {% style %}
+          .collection__item--{{ all_products[i].handle }} button {
+            background-color: {{ button_color }};
+          }
+
+          .collection__item--{{ all_products[i].handle }} button:hover {
+            background-color: {{ button_color | color_darken: 10 }};
+          }
+
+          .collection__item--{{ all_products[i].handle }}:hover .collection__item-image-wrapper {
+            background-color: {{ background_color }};
+          }
+        {% endstyle %}
+      </form>
+    </div>
+  </div>
+{% endif %}

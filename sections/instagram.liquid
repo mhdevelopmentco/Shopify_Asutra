@@ -1,0 +1,73 @@
+<div class="instagram">
+  <div class="wrapper">
+    <h3>
+      <a href="{{ section.settings.instagram_url }}" target="_blank">
+        {{ section.settings.instagram_headline }}
+      </a>
+    </h3>
+
+    <div class="instagram__carousel">
+      {% for block in section.blocks %}
+        {% capture instagram_cycle %}{% cycle 'odd','even' %}{% endcapture %}
+
+        {% if instagram_cycle == 'odd' %}
+          <div class="instagram__carousel-slide">
+            {% if block.settings.instagram_image_url != blank %}
+              <a href="{{ block.settings.instagram_image_url }}">
+                <img src="{{ block.settings.instagram_image | img_url: '200x200' }}" data-rjs="{{ block.settings.instagram_image | img_url: '400x400' }}">
+              </a>
+            {% else %}
+              <img src="{{ block.settings.instagram_image | img_url: '200x200' }}" data-rjs="{{ block.settings.instagram_image | img_url: '400x400' }}">
+            {% endif %}
+        {% else %}
+            {% if block.settings.instagram_image_url != blank %}
+              <a href="{{ block.settings.instagram_image_url }}">
+                <img src="{{ block.settings.instagram_image | img_url: '200x200' }}" data-rjs="{{ block.settings.instagram_image | img_url: '400x400' }}">
+              </a>
+            {% else %}
+              <img src="{{ block.settings.instagram_image | img_url: '200x200' }}" data-rjs="{{ block.settings.instagram_image | img_url: '400x400' }}">
+            {% endif %}
+          </div>
+        {% endif %}
+      {% endfor %}
+    </div>
+  </div>
+</div>
+
+{% schema %}
+  {
+    "name": "Instagram",
+    "settings": [
+      {
+        "type": "text",
+        "id": "instagram_headline",
+        "label": "Headline"
+      },
+      {
+        "type": "url",
+        "id": "instagram_url",
+        "label": "URL"
+      }
+    ],
+    "blocks": [
+      {
+        "type": "instagram_image",
+        "name": "Instagram Image",
+        "limit": 12,
+        "settings": [
+          {
+            "type": "image_picker",
+            "id": "instagram_image",
+            "label": "Image",
+            "info": "Dimensions 400 x 400"
+          },
+          {
+            "type": "url",
+            "id": "instagram_image_url",
+            "label": "URL"
+          }
+        ]
+      }
+    ]
+  }
+{% endschema %}

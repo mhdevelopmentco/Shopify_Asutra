@@ -1,0 +1,150 @@
+<div class="wholesale">
+  <img class="wholesale__asterisk" src="{{ 'contact-asterisk.png' | asset_url | replace: '.jpg','_234x443' }}" data-rjs="{{ 'contact-asterisk.png' | asset_url }}">
+
+  <div class="wrapper">
+    <div class="grid">
+      <div class="grid__item large--two-thirds push--large--one-sixth">
+        <h1 class="text-center">Wholesale Application Form</h1>
+
+        <p>{{ page.content | strip_html }}</p>
+
+        <div class="wholesale__form">
+          {% form 'contact' %}
+            {% if form.posted_successfully? %}
+              <p class="note form-success">
+                {{ 'contact.form.post_success' | t }}
+              </p>
+            {% endif %}
+
+            {{ form.errors | default_errors }}
+
+            <label for="ContactFormBusinessName" class="hidden-label">Business name</label>
+            <input type="text" id="ContactFormBusinessName" class="input-full" name="contact[business name]" placeholder="Business name" autocorrect="off" autocapitalize="off">
+
+            <label for="ContactFormBusinessAddress" class="hidden-label">Business address</label>
+            <input type="text" id="ContactFormBusinessAddress" class="input-full" name="contact[business address]" placeholder="Business address" autocorrect="off" autocapitalize="off">
+
+            <label for="ContactFormBusinessCity" class="hidden-label">City</label>
+            <input type="text" id="ContactFormBusinessCity" class="input-full" name="contact[business city]" placeholder="City" autocorrect="off" autocapitalize="off">
+
+            <div class="wholesale__form-group">
+              <label for="ContactFormBusinessCountry" class="hidden-label">Country</label>
+              <select id="ContactFormBusinessCountry" name="contact[business country]" data-default="United States">{{ country_option_tags }}</select>
+
+              <label for="ContactFormBusinessState" class="hidden-label">State</label>
+              <select id="ContactFormBusinessState" name="contact[business state]"></select>
+            </div>
+
+            <div class="wholesale__form-group">
+              <label for="ContactFormBusinessZip" class="hidden-label">ZIP Code</label>
+              <input type="text" id="ContactFormBusinessZip" class="input-half" name="contact[business zip]" placeholder="ZIP Code" autocorrect="off" autocapitalize="off">
+
+              <label for="ContactFormBusinessFederalEIN" class="hidden-label">Federal EIN #</label>
+              <input type="text" id="ContactFormFederalEIN" class="input-half" name="contact[business federal ein]" placeholder="Federal EIN #" autocorrect="off" autocapitalize="off">
+            </div>
+
+            <label for="ContactFormBusinessPhone" class="hidden-label">Business phone number</label>
+            <input type="tel" id="ContactFormBusinessPhone" class="input-full" name="contact[business phone number]" placeholder="Business phone number" pattern="[0-9\-]*">
+
+            <label for="ContactFormBusinessEmail" class="hidden-label">{{ 'contact.form.email' | t }}</label>
+            <input type="email" id="ContactFormBusinessEmail" class="input-full" name="contact[email]" placeholder="Business email" autocorrect="off" autocapitalize="off">
+
+            <label for="ContactFormBusinessWebsite" class="hidden-label">{{ 'contact.form.email' | t }}</label>
+            <input type="text" id="ContactFormBusinessWebsite" class="input-full" name="contact[business website]" placeholder="Business website" autocorrect="off" autocapitalize="off">
+
+            <label for="ContactFormContactName" class="hidden-label">{{ 'contact.form.email' | t }}</label>
+            <input type="text" id="ContactFormContactName" class="input-full" name="contact[contact name]" placeholder="Contact name" autocorrect="off" autocapitalize="off">
+
+            <h4>What products are you interested in selling?</h4>
+            <br>
+
+            <div class="wholesale__checkbox">
+              <input type="checkbox" id="aromatherapyMists" name="contact[Interested in selling Aromatherapy Mists]" value="Yes">
+              <label for="aromatherapyMists">Aromatherapy Mists</label>
+            </div>
+
+            <div class="wholesale__checkbox">
+              <input type="checkbox" id="bathSalts" name="contact[Interested in selling Bath Salts]" value="Yes">
+              <label for="bathSalts">Bath Salts</label>
+            </div>
+
+            <div class="wholesale__checkbox">
+              <input type="checkbox" id="bodyScrubs" name="contact[Interested in selling Body Scrubs]" value="Yes">
+              <label for="bodyScrubs">Body Scrubs</label>
+            </div>
+
+            <div class="wholesale__checkbox">
+              <input type="checkbox" id="indianHealingClay" name="contact[Interested in selling Indian Healing Clay]" value="Yes">
+              <label for="indianHealingClay">Indian Healing Clay</label>
+            </div>
+
+            <div class="wholesale__checkbox">
+              <input type="checkbox" id="magnesiumFlakes" name="contact[Interested in selling Magnesium Flakes]" value="Yes">
+              <label for="magnesiumFlakes">Magnesium Flakes</label>
+            </div>
+
+            <div class="wholesale__checkbox">
+              <input type="checkbox" id="magnesiumOilSpray" name="contact[Interested in selling Magnesium Oil Spray]" value="Yes">
+              <label for="magnesiumOilSpray">Magnesium Oil Spray</label>
+            </div>
+
+            <div class="wholesale__checkbox">
+              <input type="checkbox" id="painReliefCream" name="contact[Interested in selling Pain Relief Cream]" value="Yes">
+              <label for="painReliefCream">Pain Relief Cream</label>
+            </div>
+
+            <div class="wholesale__checkbox">
+              <input type="checkbox" id="antiAgingSkinSerums" name="contact[Interested in selling Anti-Aging Skin Serums]" value="Yes">
+              <label for="antiAgingSkinSerums">Anti-Aging Skin Serums</label>
+            </div>
+
+            <div class="wholesale__checkbox">
+              <input type="checkbox" id="yogaMatCleaners" name="contact[Interested in selling Yoga Mat Cleaners]" value="Yes">
+              <label for="yogaMatCleaners">Yoga Mat Cleaners</label>
+            </div>
+
+            <br>
+            <h4>Have you used Asutra products personally?</h4>
+            <br>
+
+            <input type="radio" name="contact[Have you used asutra products]" value="Yes"> <label>Yes</label>
+            <input type="radio" name="contact[Have you used asutra products]" value="No"> <label>No</label>
+
+            <br>
+            <h4>Why are you interested in reselling Asutra products?</h4>
+            <br>
+            <label for="ContactFormMessage" class="hidden-label">{{ 'contact.form.message' | t }}</label>
+            <textarea rows="10" id="ContactFormMessage" class="input-full" name="contact[body]" placeholder="">{% if form.body %}{{ form.body }}{% endif %}</textarea>
+
+            <br>
+            <br>
+            <h4>Are you a bricks and mortar shop, online store, both?</h4>
+            <br>
+            <div class="wholesale__checkbox">
+              <input type="checkbox" id="bricks-and-mortar-shop" name="contact[Bricks and mortar shop]" value="Yes">
+              <label for="bricks-and-mortar-shop">Bricks and mortar shop</label>
+            </div>
+
+            <div class="wholesale__checkbox">
+              <input type="checkbox" id="online-store" name="contact[Online store]" value="Yes">
+              <label for="online-store">Online store</label>
+            </div>
+
+            <div class="wholesale__checkbox">
+              <input type="checkbox" id="both" name="contact[Both]" value="Yes">
+              <label for="both">Both</label>
+            </div>
+
+            <button type="submit" class="btn btn--full">{{ 'contact.form.send' | t }}</button>
+          {% endform %}
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  // Initialize observers on address selectors
+  new Shopify.CountryProvinceSelector('ContactFormBusinessCountry', 'ContactFormBusinessState', {
+  });
+</script>

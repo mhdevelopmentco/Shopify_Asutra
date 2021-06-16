@@ -1,0 +1,78 @@
+<!-- START Google Gtag for Theme.Liquid -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=AW-950171439"></script>
+  <script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'AW-950171439');
+
+  {% if template contains 'collection' %}
+  // Collection Page
+ var prodIds=[];
+    {% for prods in collection.products limit: 10 %}
+      {% for items in prods.variants limit: 10 %}
+        prodIds.push('{{items.id}}');
+        {% unless forloop.last %}{% endunless %}
+      {% endfor %}
+      {% unless forloop.last %}{% endunless %}
+    {% endfor %}
+  gtag('event', 'view_item_list', {
+  ecomm_prodid: prodIds,
+  ecomm_pagetype: 'category',
+  ecomm_totalvalue: {{ collection.all_products.first.price_min | money_without_currency | remove: "," }}
+  });
+
+  {% elsif template contains 'product' %}
+  // Product Page
+  // {{ product.variants.first.sku }}
+  // {{ product.id }}
+  // {{ product.variants.first.id }}
+  gtag('event', 'view_item', {
+  ecomm_prodid: [{% for item in product.variants limit:5%}'{{ item.id }}'{% unless forloop.last %}, {% endunless %}{% endfor %}],
+  ecomm_pagetype: 'product',
+  ecomm_totalvalue: {{ product.price_min | money_without_currency | remove: "," }}
+  });
+
+  // Add To Cart
+  // {{ item.variant.sku }}
+  // {{ item.id }}
+  // {{ item.variant_id }}
+  $('#AddToCart').bind('click', function() {         
+    gtag('event', 'add_to_cart', {
+    ecomm_prodid: [{% for item in cart.items %}'{{ item.id }}'{% if forloop.last != true %},{% endif %}{% endfor %}],
+    ecomm_pagetype: 'cart',
+    ecomm_totalvalue: {{ cart.total_price | money_without_currency | remove: "," }}
+    });
+  });
+                 
+  {% elsif template contains 'cart' %}
+  // Cart Page
+  // {{ item.variant.sku }}
+  // {{ item.id }}
+  // {{ item.variant_id }}
+  gtag('event', 'begin_checkout', {
+  ecomm_prodid: [{% for item in cart.items %}'{{ item.id }}'{% if forloop.last != true %},{% endif %}{% endfor %}],
+  ecomm_pagetype: 'cart',
+  ecomm_totalvalue: {{ cart.total_price | money_without_currency | remove: "," }}
+  });
+
+  {% elsif template contains 'search' %}
+  // Search Page
+  gtag('event', 'view_search_results', {
+  ecomm_pagetype: 'searchresults'
+  });
+
+  {% elsif template contains 'index' %}
+  // Home Page
+  gtag('event', 'page_view', {
+  ecomm_pagetype: 'home'
+  });
+
+  {% else %}
+  // Other Page
+  gtag('event', 'page_view', {
+  ecomm_pagetype: 'other'
+  });
+  {% endif %}
+  </script>
+  <!-- END Google Gtag for Theme.Liquid -->

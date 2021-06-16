@@ -1,0 +1,103 @@
+{% assign collection_match = false %}
+
+{% for block in section.blocks %}
+  {% assign collection_handle = collections[block.settings.collection_association].handle %}
+  {% if collection_handle == collection.handle %}
+    {% assign collection_match = true %}
+    {% break %}
+  {% endif %}
+{% endfor %}
+
+{% if collection_match == true %}
+  {% for block in section.blocks %}
+    {% assign collection_handle = collections[block.settings.collection_association].handle %}
+
+    {% if collection_handle == collection.handle %}
+
+      {% if block.settings.featured_articles_headline != blank %}
+        <div class="featured-blog">
+          <div class="wrapper">
+            <h3>{{ block.settings.featured_articles_headline }}</h3>
+
+            <div class="featured-blog__carousel">
+              {% for i in (1..3) %}
+                {% capture featured_article_handle %}featured_article_{{ i }}{% endcapture %}
+                {% capture featured_article %}{{ block.settings[featured_article_handle] }}{% endcapture %}
+
+                {% if block.settings[featured_article_handle] != blank %}
+                  <div class="blog__article blog__article--{{ articles[featured_article].title | handleize }}">
+                    {% capture button_color %}{% endcapture %}
+                    {% for tag in articles[featured_article].tags %}
+                      {% if tag contains 'button-color-' %}
+                        {% capture button_color %}{{ tag | remove: 'button-color-' }}{% endcapture %}
+                      {% endif %}
+                    {% endfor %}
+
+                    <style>
+                      .blog__article--{{ articles[featured_article].title | handleize }} h4 a:hover {
+                        color: {{ button_color }};
+                      }
+                    </style>
+
+                    <a href="{{ articles[featured_article].url }}">
+                      <div class="blog__article-image" style="background-image: url('{{ articles[featured_article].image | img_url: '424x424' }}');" data-rjs="{{ articles[featured_article].image | img_url: '848x848' }}"></div>
+                    </a>
+
+                    <div class="blog__article-content">
+                      <h4><a href="{{ articles[featured_article].url }}">{{ articles[featured_article].title }}</a></h4>
+                      <p>{{ articles[featured_article].excerpt }}</p>
+                    </div>
+
+                    <a href="{{ articles[featured_article].url }}" class="btn" style="background-color: {{ button_color }};">Read more</a>
+
+                    <div class="marble" style="background-image: url('{{ articles[featured_article].metafields.c_f.marble | replace: '.jpg','_424x48.jpg' }}');" data-rjs="{{ articles[featured_article].metafields.c_f.marble }}" alt="Blog marble"></div>
+                  </div>
+                {% endif %}
+              {% endfor %}
+            </div>
+          </div>
+        </div>
+      {% endif %}
+
+    {% endif %}
+  {% endfor %}
+{% endif %}
+
+{% schema %}
+  {
+    "blocks": [
+      {
+        "type": "collection_featured_blog",
+        "name": "Collection Featured Blog",
+        "settings": [
+          {
+            "type":"collection",
+            "id":"collection_association",
+            "label":"Associated Collection",
+            "info":"Select the collection this section should appear on"
+          },
+          {
+            "type": "text",
+            "id": "featured_articles_headline",
+            "label": "Headline"
+          },
+          {
+            "type": "article",
+            "id": "featured_article_1",
+            "label": "Article 1"
+          },
+          {
+            "type": "article",
+            "id": "featured_article_2",
+            "label": "Article 2"
+          },
+          {
+            "type": "article",
+            "id": "featured_article_3",
+            "label": "Article 3"
+          }
+        ]
+      }
+    ]
+  }
+{% endschema %}

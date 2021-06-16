@@ -1,0 +1,56 @@
+<div class="featured-banner" style="background-image: url({{ section.settings.featured_banner_image | img_url: '1440x1440' }});" data-rjs="{{ section.settings.featured_banner_image | img_url: '2880x2880' }}">
+  <div class="wrapper">
+    <div class="grid__item one-half push--one-half push--large--seven-twelfths large--five-twelfths">
+      <div class="display-table">
+        <div class="display-table-cell">
+          <h3 style="color: {{ section.settings.featured_banner_headline_color }};">{{ section.settings.featured_banner_headline }}</h3>
+          <a class="btn" href="{{ section.settings.featured_banner_button_url }}" style="color: {{ section.settings.featured_banner_button_text_color }}; background-color: {{ section.settings.featured_banner_button_color }};">{{ section.settings.featured_banner_button_text }}</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+{% schema %}
+  {
+    "name": "Featured Banner",
+    "settings": [
+      {
+        "type": "image_picker",
+        "id": "featured_banner_image",
+        "label": "Image",
+        "info": "Dimensions 2880 x 1100"
+      },
+      {
+        "type": "text",
+        "id": "featured_banner_headline",
+        "label": "Headline"
+      },
+      {
+        "type": "color",
+        "id": "featured_banner_headline_color",
+        "label": "Headline Color"
+      },
+      {
+        "type": "text",
+        "id": "featured_banner_button_text",
+        "label": "Button Text"
+      },
+      {
+        "type": "color",
+        "id": "featured_banner_button_text_color",
+        "label": "Button Text Color"
+      },
+      {
+        "type": "color",
+        "id": "featured_banner_button_color",
+        "label": "Button Color"
+      },
+      {
+        "type": "url",
+        "id": "featured_banner_button_url",
+        "label": "Button URL"
+      }
+    ]
+  }
+{% endschema %}

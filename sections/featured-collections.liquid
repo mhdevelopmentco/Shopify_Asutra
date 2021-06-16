@@ -1,0 +1,71 @@
+<div class="featured-collections">
+  <div class="wrapper">
+    <div class="featured-collections__header">
+      <h3>{{ section.settings.featured_collections_headline }}</h3>
+      <span>{{ section.settings.featured_collections_subline }}</span>
+    </div>
+
+    <div class="grid">
+      {% for block in section.blocks %}
+        <div class="featured-collection featured-collection--{{ i }} grid__item one-half">
+          <a href="{{ collections[block.settings.featured_collection].url }}">
+            <div class="featured-collection__mobile-image medium--hide large--hide" style="background-image: url('{{ block.settings.featured_collection_image | img_url: '647x368' }}" alt="{{ collections[settings[featured_collection]].title }}');"></div>
+            <img class="featured-collection__image small--hide" src="{{ block.settings.featured_collection_image | img_url: '647x368' }}" data-rjs="{{ block.settings.featured_collection_image | img_url: '1294x736' }}" alt="{{ collections[settings[featured_collection]].title }}">
+            <img class="featured-collection__hover-image small--hide" src="{{ block.settings.featured_collection_hover_image | img_url: '647x368' }}" data-rjs="{{ block.settings.featured_collection_hover_image | img_url: '1294x736' }}" alt="{{ collections[settings[featured_collection]].title }}">
+            <h4>{{ collections[block.settings.featured_collection].title }}</h4>
+            <span style="color: {{ block.settings.featured_collection_color }}">Shop now</span>
+          </a>
+        </div>
+      {% endfor %}
+    </div>
+  </div>
+</div>
+
+{% schema %}
+  {
+    "name": "Featured Collections",
+    "settings": [
+      {
+        "type": "text",
+        "id": "featured_collections_headline",
+        "label": "Headline"
+      },
+      {
+        "type": "text",
+        "id": "featured_collections_subline",
+        "label": "Subline"
+      }
+    ],
+    "blocks": [
+      {
+        "type": "featured_collection",
+        "name": "Collection",
+        "limit": 2,
+        "settings": [
+          {
+            "type": "collection",
+            "id": "featured_collection",
+            "label": "Collection"
+          },
+          {
+            "type": "image_picker",
+            "id": "featured_collection_image",
+            "label": "Image",
+            "info": "Dimensions 1294x736"
+          },
+          {
+            "type": "image_picker",
+            "id": "featured_collection_hover_image",
+            "label": "Hover Image",
+            "info": "Dimensions 1294x736"
+          },
+          {
+            "type": "color",
+            "id": "featured_collection_color",
+            "label": "Color"
+          }
+        ]
+      }
+    ]
+  }
+{% endschema %}

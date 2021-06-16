@@ -1,0 +1,155 @@
+{% assign product = all_products[section.settings.error_404_product] %}
+
+{% for tag in product.tags %}
+  {% if tag contains 'background-color-' %}
+    {% capture general_background_color %}{{ tag | remove: 'background-color-' }}{% endcapture %}
+  {% endif %}
+
+  {% if tag contains 'button-color-' %}
+    {% capture general_button_color %}{{ tag | remove: 'button-color-' }}{% endcapture %}
+  {% endif %}
+{% endfor %}
+
+<div class="product-single" itemscope itemtype="http://schema.org/Product">
+  <meta itemprop="url" content="{{ shop.url }}{{ product.url }}">
+  <meta itemprop="image" content="{{ product.featured_image.src | img_url: 'grande' }}">
+
+  {% assign current_variant = product.selected_or_first_available_variant %}
+  <div class="grid--full small--hide medium--hide">
+    <div class="grid__item medium--one-half large--seven-twelfths">
+      <div class="product-single__photos product-single__photos--desktop">
+        <span class="icon icon-chevron-right hover-icon"></span>
+        <span class="icon icon-chevron-left hover-icon"></span>
+
+        {% for image in product.images %}
+          {% if image.alt contains 'overlay' %}
+            <img class="product-single__overlay" src="{{ image.src | img_url: '359x372' }}" data-rjs="{{ image.src | img_url: '800x800' }}" alt="{{ image.alt | escape }}">
+          {% endif %}
+        {% endfor %}
+
+        <div class="product-single__carousel">
+          {% for image in product.images %}
+            {% unless image.alt contains 'hover' or image.alt contains 'overlay' %}
+              <div class="product-single__carousel-slide {{ image.alt | handleize }}">
+                <div class="display-table">
+                  <div class="display-table-cell">
+                    <img class="{% if image.alt contains 'lifestyle' %}lifestyle{% endif %}{% if product.tags contains 'bar-soap' %}bar-soap{% endif %} {{ product.handle }}" src="{{ image.src | img_url: '1640x1640' }}" alt="{{ image.alt | escape }}">
+                  </div>
+                </div>
+              </div>
+            {% endunless %}
+          {% endfor %}
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="product-single__content-wrapper">
+    <div class="wrapper">
+      <div class="grid">
+        <div class="grid__item medium--one-half large--hide">
+          <div class="product-single__photos product-single__photos--mobile">
+            {% if product.handle == 'magnesium-oil-spray' %}
+              <div class="product-single__free-ebook">
+                <div class="display-table">
+                  <div class="display-table-cell">
+                    <span>Includes FREE <span></span> e-book</span>
+                  </div>
+                </div>
+              </div>
+            {% endif %}
+
+            {% for image in product.images %}
+              {% if image.alt contains 'overlay' %}
+                <img class="product-single__overlay" src="{{ image.src | img_url: '359x372' }}" data-rjs="{{ image.src | img_url: '800x800' }}" alt="{{ image.alt | escape }}">
+              {% endif %}
+            {% endfor %}
+
+            <div class="product-single__carousel">
+              {% for image in product.images %}
+                {% unless image.alt contains 'hover' or image.alt contains 'overlay' %}
+                  <div class="product-single__carousel-slide">
+                    <div class="display-table">
+                      <div class="display-table-cell">
+                        <img src="{{ image.src | img_url: '1640x1640' }}" alt="{{ image.alt | escape }}">
+                      </div>
+                    </div>
+                  </div>
+                {% endunless %}
+              {% endfor %}
+            </div>
+          </div>
+        </div>
+
+        <div class="grid__item medium--one-half large--four-twelfths push--large--seven-twelfths">
+          <div class="product-single__content small--text-center">
+            <div class="clearfix"></div>
+
+            <h1 class="product-single__404-headline" itemprop="name">{{ section.settings.error_404_headline }}</h1>
+
+            <div itemprop="offers" itemscope itemtype="http://schema.org/Offer">
+              <meta itemprop="priceCurrency" content="{{ shop.currency }}">
+
+              <link itemprop="availability" href="http://schema.org/{% if product.available %}InStock{% else %}OutOfStock{% endif %}">
+
+              {% form 'product', product, id: "AddToCartForm" %}
+                <div class="hide">
+                  <select name="id" id="productSelect">
+                    {% for variant in product.variants %}
+                      {% if variant.available %}
+                        <option {% if variant == product.selected_or_first_available_variant %} selected="selected" {% endif %} data-sku="{{ variant.sku }}" value="{{ variant.id }}">{{ variant.title }} - {{ variant.price | money_with_currency }}</option>
+                      {% else %}
+                        <option disabled="disabled">
+                          {{ variant.title }} - {{ 'products.product.sold_out' | t }}
+                        </option>
+                      {% endif %}
+                    {% endfor %}
+                  </select>
+                </div>
+
+                <div class="product-single__404-message">
+                  <p>{{ section.settings.error_404_content }}</p>
+                </div>
+
+                <a href="{{ shop.url }}" class="product-single__404-return product-single__subscribe btn">Return to homepage</a>
+
+                <button type="submit" name="add" id="AddToCart" class="addtocart btn product-single__404-submit product-single__submit">
+                  <span class="product-single__price product-price" itemprop="price" content="{{ current_variant.price | money_without_currency }}">
+                    {{ current_variant.price | money }}
+                  </span>
+                  <span> &ndash; </span>
+                  <span id="AddToCartText">{{ 'products.product.add_to_cart' | t }}</span>
+                </button>
+              {% endform %}
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+{% include 'color-scheme' with general_background_color: general_background_color, general_button_color: general_button_color %}
+
+{% schema %}
+  {
+    "name": "404 Page",
+    "settings": [
+      {
+        "type": "text",
+        "id": "error_404_headline",
+        "label": "Headline"
+      },
+      {
+        "type": "textarea",
+        "id": "error_404_content",
+        "label": "Content"
+      },
+      {
+        "type": "product",
+        "id": "error_404_product",
+        "label": "Product"
+      }
+    ]
+  }
+{% endschema %}

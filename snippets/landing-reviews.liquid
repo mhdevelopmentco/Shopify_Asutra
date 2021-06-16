@@ -1,0 +1,59 @@
+<div class="landing-reviews featured-reviews">
+  <div class="wrapper">
+    <h2>{{ page.metafields.c_f['Review Title'] }}</h2>
+    <div class="featured-reviews__carousel">
+      {% for i in (1..6) %}
+        {% capture review_product %}Review {{ i }} Product Handle{% endcapture %}
+        {% assign product = all_products[page.metafields.c_f[review_product]] %}
+        {% capture review_date %}Review {{ i }} Date{% endcapture %}
+        {% capture review_headline %}Review {{ i }} Headline{% endcapture %}
+        {% capture review_content %}Review {{ i }} Content{% endcapture %}
+        {% capture review_author %}Review {{ i }} Author{% endcapture %}
+
+        {% if page.metafields.c_f[review_product] != blank %}
+          <div class="featured-review">
+            <div class="grid">
+              <div class="grid__item five-twelfths">
+                {% capture background_color %}{% endcapture %}
+                {% for tag in product.tags %}
+                  {% if tag contains 'background-color-' %}
+                    {% capture background_color %}{{ tag | remove: 'background-color-' }}{% endcapture %}
+                  {% endif %}
+                {% endfor %}
+
+                <div class="featured-review__image" {% if background_color != blank %}style="background-color: {{ background_color }};"{% endif %}>
+                  <a href="{{ product.url }}">
+                    <div class="featured-review__image-content">
+                      <img src="{{ product.featured_image.src | img_url: '300x300' }}" alt="{{ product.title }}">
+                      <span>{{ product.title }}</span>
+                    </div>
+                  </a>
+                </div>
+              </div>
+
+              <div class="grid__item seven-twelfths">
+                <div class="featured-review__content">
+                  <div class="display-table">
+                    <div class="display-table-cell">
+                      <span>
+                        <span class="icon icon-star"></span>
+                        <span class="icon icon-star"></span>
+                        <span class="icon icon-star"></span>
+                        <span class="icon icon-star"></span>
+                        <span class="icon icon-star"></span>
+                        <span class="featured-review__date">{{ page.metafields.c_f[review_date] }}</span>
+                      </span>
+                      <h4>{{ page.metafields.c_f[review_headline] }}</h4>
+                      <p>{{ page.metafields.c_f[review_content] }}</p>
+                      <small>{{ page.metafields.c_f[review_author] }}</small>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        {% endif %}
+      {% endfor %}
+    </div>
+  </div>
+</div>

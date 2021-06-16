@@ -1,0 +1,40 @@
+{% paginate collection.products by 12 %}
+  {% section 'collection-hero' %}
+
+  <div class="wrapper">
+    {% if collection.all_products_count >= 1 %}
+      <div class="collection__grid grid">
+        <div class="grid__item medium--one-quarter large--one-quarter seven-twelfths">
+          <h3 class="collection__filter-trigger medium--hide large--hide"><span class="collection__filter-trigger-state">Show Filters</span> <span class="icon icon-chevron-down"></span></h3>
+          <div class="collection__filters">
+            {% include 'filter-menu' %}
+          </div>
+        </div>
+
+        <div class="grid__item five-twelfths collection__sorting-container">
+          {% include 'collection-sorting' %}
+        </div>
+
+        <div class="grid__item medium--three-quarters large--three-quarters">
+          <div class="grid-uniform">
+            {% for product in collection.products %}
+              {% include 'product-grid-item' %}
+            {% endfor %}
+          </div>
+
+          {% if paginate.pages > 1 %}
+            <hr>
+            <div class="pagination">
+              {{ paginate | default_pagination | replace: '&laquo; Previous', '&larr;' | replace: 'Next &raquo;', '&rarr;' }}
+            </div>
+          {% endif %}
+        </div>
+      </div>
+    {% else %}
+      <h3 class="collection__empty text-center">{{ 'collections.general.no_matches' | t }}</h3>
+    {% endif %}
+  </div>
+
+  {% section 'collection-featured-blog' %}
+
+{% endpaginate %}

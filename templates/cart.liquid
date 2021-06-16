@@ -1,0 +1,86 @@
+{% include 'bold-cart' %}
+
+{% if cart.item_count > 0 %}
+  <h1 class="text-center">{{ 'cart.general.title' | t }}</h1>
+
+  <form action="/cart" method="post" novalidate class="cart table-wrap">
+    <table class="cart__table table--responsive">
+      <tbody>
+        {% for item in cart.items %}
+          {% include 'bold-cart-item' with item %}
+
+          <tr class="cart__row small--text-center">
+            <td>
+              <a href="{{ item.url | within: collections.all }}" class="cart__image">
+                <img class="cart__item-image" src="{{ item | img_url: 'medium' }}" alt="{{ item.title | escape }}">
+              </a>
+            </td>
+
+            <td class="cart__item-meta small--text-center">
+              <a href="{{ item.url }}" class="cart__item-title">
+                {{ item.product.title }}
+              </a>
+
+              {% unless item.variant.title contains 'Default' %}
+                <small>{{ item.variant.title }}</small>
+              {% endunless %}
+
+              {{ bold_item_properties }}
+              {{ bold_recurring_desc }}
+
+              <span class="cart__item-price large--hide">
+                {{ bold_item_line_price | money }}
+              </span>
+
+              <a href="/cart/change?line={{ forloop.index }}&amp;quantity=0" class="cart__item-remove {{ bold_remove_class }}">
+                <small>{{ 'cart.general.remove' | t }}</small>
+              </a>
+            </td>
+
+            <td class="small--text-center">
+              <input type="number" name="updates[]" id="updates_{{ item.id }}" value="{{ item.quantity }}" min="0">
+            </td>
+
+            <td class="cart__item-price small--hide medium--hide small--text-center text-right">
+              <span>
+                {% if item.original_line_price != item.line_price %}
+               	  {{ item.final_price | money }}
+                {% else %}
+                  {{ bold_item_line_price | money }}
+                {% endif %}
+              </span>
+            </td>
+          </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+
+    <div class="cart__total-section cart__row grid">
+      <div class="grid__item small--text-center text-right one-half small--one-whole large--right medium--right">
+        <p>
+          <span class="cart__subtotal-title">{{ 'cart.general.subtotal' | t }}</span>
+          <span class="cart__subtotal">
+            {% if cart.total_discounts > 0 %}
+              {{ cart.total_price | money }}
+            {% else %}
+              {{ bold_cart_total_price | money }}
+            {% endif %}
+          </span>
+        </p>
+
+        <p><em>{{ 'cart.general.shipping_at_checkout' | t }}</em></p>
+
+        {{ bold_ro_cart }}
+
+        <input type="submit" name="update" class="btn--secondary cart__update-btn" value="{{ 'cart.general.update' | t }}">
+
+        <input type="submit" name="checkout" class="btn cart__checkout-btn" value="{{ 'cart.general.checkout' | t }}">
+      </div>
+    </div>
+  </form>
+{% else %}
+  <div class="cart__empty text-center">
+    <h1>{{ 'cart.general.empty' | t }}</h1>
+    <p>{{ 'cart.general.continue_browsing_html' | t }}</p>
+  </div>
+{% endif %}

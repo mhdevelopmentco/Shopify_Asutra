@@ -1,0 +1,22 @@
+<div class="featured-products">
+  <div class="wrapper">
+    <div class="grid">
+      {% for product in collections[section.settings.featured_products].products %}
+        {% include 'product-grid-item' %}
+      {% endfor %}
+    </div>
+  </div>
+</div>
+
+{% schema %}
+  {
+    "name": "Featured Products",
+    "settings": [
+      {
+        "type": "collection",
+        "id": "featured_products",
+        "label": "Featured Products"
+      }
+    ]
+  }
+{% endschema %}

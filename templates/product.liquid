@@ -1,0 +1,443 @@
+{% if customer and product.tags contains 'wholesale-40' %}
+  {% assign wholesale_40 = 'wholesale-40' %}
+{% endif %}
+
+{% if customer and product.tags contains 'wholesale-50' %}
+  {% assign wholesale_50 = 'wholesale-50' %}
+{% endif %}
+
+{% if product.tags contains 'wholesale-sample' %}
+  <script>
+    window.location.href = '/';
+  </script>
+{% endif %}
+
+<div class="product-single {{ wholesale_40 }} {{ wholesale_50 }}" itemscope itemtype="http://schema.org/Product">
+  <meta itemprop="url" content="{{ shop.url }}{{ product.url }}">
+  <meta itemprop="image" content="{{ product.featured_image.src | img_url: 'grande' }}">
+
+  {% assign current_variant = product.selected_or_first_available_variant %}
+  <div class="grid--full small--hide medium--hide">
+    <div class="grid__item medium--one-half large--seven-twelfths">
+      <div class="product-single__photos product-single__photos--desktop">
+        <span class="icon icon-chevron-right hover-icon"></span>
+        <span class="icon icon-chevron-left hover-icon"></span>
+
+        {% if product.handle == 'magnesium-oil-spray' %}
+          <div class="product-single__free-ebook">
+            <div class="display-table">
+              <div class="display-table-cell">
+                <span>Includes FREE <span></span> e-book</span>
+              </div>
+            </div>
+          </div>
+        {% endif %}
+
+        {% for image in product.images %}
+          {% if image.alt contains 'overlay' %}
+            <img class="product-single__overlay" src="{{ image.src | img_url: '359x372' }}" data-rjs="{{ image.src | img_url: '800x800' }}" alt="{{ image.alt | escape }}">
+          {% endif %}
+        {% endfor %}
+
+        <div class="product-single__carousel">
+          {% for image in product.images %}
+          	{% if image.alt contains 'variant' %}
+              {% if image.alt contains current_variant.title or image.src == current_variant.image.src %}
+                <div class="product-single__carousel-slide">
+                  <div class="display-table">
+                    <div class="display-table-cell">
+                      <img class="{% if product.tags contains 'bar-soap' %}bar-soap{% endif %} {{ product.handle }}" src="{{ image.src | img_url: '1640x1640' }}" alt="{{ image.alt | escape }}" data-variant-image>
+                    </div>
+                  </div>
+                </div>
+              {% endif %}
+            {% endif %}
+            {% unless image.alt contains 'hover' or image.alt contains 'overlay' or image.alt contains 'variant' %}
+              <div class="product-single__carousel-slide {% if image.alt contains 'lifestyle' %} lifestyle{% else %}{{ image.alt | handleize }}{% endif %}">
+                <div class="display-table">
+                  <div class="display-table-cell">
+                    <img class="{% if image.alt contains 'lifestyle' %}lifestyle{% endif %}{% if product.tags contains 'bar-soap' %}bar-soap{% endif %} {{ product.handle }}" src="{{ image.src | img_url: '1640x1640' }}" alt="{{ image.alt | escape }}">
+                  </div>
+                </div>
+              </div>
+            {% endunless %}
+          {% endfor %}
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="product-single__content-wrapper">
+    <div class="product-single__shipping-details">
+      <div class="display-table">
+        <div class="display-table-cell">
+          <span>30 Day FREE returns</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="wrapper">
+      <div class="grid">
+        <div class="grid__item medium--one-half large--hide">
+          <div class="product-single__photos product-single__photos--mobile">
+            {% if product.handle == 'magnesium-oil-spray' %}
+              <div class="product-single__free-ebook">
+                <div class="display-table">
+                  <div class="display-table-cell">
+                    <span>Includes FREE <span></span> e-book</span>
+                  </div>
+                </div>
+              </div>
+            {% endif %}
+
+            {% for image in product.images %}
+              {% if image.alt contains 'overlay' %}
+                <img class="product-single__overlay" src="{{ image.src | img_url: '359x372' }}" data-rjs="{{ image.src | img_url: '800x800' }}" alt="{{ image.alt | escape }}">
+              {% endif %}
+            {% endfor %}
+
+            <div class="product-single__carousel">
+              {% for image in product.images %}
+                {% if image.alt contains 'variant' %}
+                  {% if image.alt contains current_variant.title or image.src == current_variant.image.src %}
+                    <div class="product-single__carousel-slide">
+                      <div class="display-table">
+                        <div class="display-table-cell">
+                          <img src="{{ image.src | img_url: '1640x1640' }}" alt="{{ image.alt | escape }}" data-variant-image>
+                        </div>
+                      </div>
+                    </div>
+                  {% endif %}
+                {% endif %}
+                {% unless image.alt contains 'hover' or image.alt contains 'overlay' or image.alt contains 'variant' %}
+                  <div class="product-single__carousel-slide">
+                    <div class="display-table">
+                      <div class="display-table-cell">
+                        <img src="{{ image.src | img_url: '1640x1640' }}" alt="{{ image.alt | escape }}">
+                      </div>
+                    </div>
+                  </div>
+                {% endunless %}
+              {% endfor %}
+            </div>
+          </div>
+        </div>
+
+        <div class="grid__item medium--one-half large--four-twelfths push--large--seven-twelfths">
+          <div class="product-single__content small--text-center">
+            <div class="yotpo bottomLine yotpo-review-count"
+              data-appkey="boxZuNbsPcJ9dvUfxxLj87aDlvNiF0Ex7VRPzt1q"
+              data-domain="{{shop.permanent_domain | escape }}"
+              data-product-id="{{ product.id }}"
+              data-product-models="{{ product.id }}"
+              data-name="{{ product.title | escape }}"
+              data-url="{{ shop.url }}{{ product.url }}"
+              data-image-url="{{ product.featured_image | product_img_url: 'large' |replace: '?', '%3F' | replace: '&','%26'}}"
+              data-description="{{ product.description | escape }}"
+              data-bread-crumbs="{% for tag in product.tags %}{{ tag | escape }};{% endfor %}">
+            </div>
+
+            <div class="clearfix"></div>
+
+            <h1 itemprop="name">{% if product.metafields.c_f.replacement-product-title %}{{ product.metafields.c_f.replacement-product-title }}{% else %}{{ product.title }}{% endif %}</h1>
+
+            <div itemprop="offers" itemscope itemtype="http://schema.org/Offer">
+              <meta itemprop="priceCurrency" content="{{ shop.currency }}">
+
+              <link itemprop="availability" href="http://schema.org/{% if product.available %}InStock{% else %}OutOfStock{% endif %}">
+
+              {% form 'product', product, id: "AddToCartForm" %}
+                <div class="product-single__meta {% if product.metafields.c_f.collection != blank %}has-swatches{% endif %}">
+                  <span class="visually-hidden">{{ 'products.general.regular_price' | t }}</span>
+                  <span class="product-single__price product-price" data-price="{{ current_variant.price | money }}" itemprop="price" content="{{ current_variant.price | money_without_currency }}">
+                    {{ current_variant.price | money }}
+                  </span>
+
+                  {% if product.compare_at_price_max > product.price %}
+                    <span class="visually-hidden">{{ 'products.general.sale_price' | t }}</span>
+                    <span class="product-single__price product-single__price--compare compare-price" data-price="{{ current_variant.compare_at_price | money }}">
+                      {{ current_variant.compare_at_price | money }}
+                    </span>
+                  {% endif %}
+                </div>
+
+                {% if product.metafields.c_f.collection != blank %}
+                  {% if product.metafields.c_f.collection == 'eye-pillows' %}
+                    <span class="product-single__selected-variant">Selected Color: <span>{{ product.type }}</span></span>
+                  {% elsif product.metafields.c_f.collection == 'bar-soaps' or product.metafields.c_f.collection == 'anti-aging-serums' %}
+                    <span class="product-single__selected-variant">Selected Type: <span>{{ product.type }}</span></span>
+                  {% else %}
+                    <span class="product-single__selected-variant">Selected Scent: <span>{{ product.type }}</span></span>
+                  {% endif %}
+                  {% capture product_handle %}{{ product.handle }}{% endcapture %}
+                  <div class="product-single__variant-swatches">
+                    {% for product in collections[product.metafields.c_f.collection].products %}
+                      {% unless product.tags contains 'set' %}
+                        {% capture swatch_color %}{% endcapture %}
+
+                        {% for tag in product.tags %}
+                          {% if tag contains 'button-color-' %}
+                            {% capture swatch_color %}{{ tag | remove: 'button-color-' }}{% endcapture %}
+                          {% endif %}
+                        {% endfor %}
+
+                        {% if product.handle == 'silk-eye-pillow-purple' %}
+                          {% assign swatch_color = '#611D89' %}
+                        {% endif %}
+
+                        {% if product.handle == 'silk-eye-pillow-black' %}
+                          {% assign swatch_color = '#000000' %}
+                        {% endif %}
+
+                        {% if product.handle == 'silk-eye-pillow-burgundy' %}
+                          {% assign swatch_color = '#820D22' %}
+                        {% endif %}
+
+                        {% if product.handle == 'silk-eye-pillow-silver' %}
+                          {% assign swatch_color = '#D0CFCF' %}
+                        {% endif %}
+
+                        {% style %}
+                          .product-single .product-{{ product.handle }} {
+                            background-color: {{ swatch_color }};
+                          }
+
+                          .product-single .product-{{ product.handle }}:hover:after {
+                            border-color: {{ swatch_color }};
+                          }
+
+                          .product-single .product-{{ product.handle }}.active:after {
+                            border-color: {{ swatch_color }};
+                          }
+                        {% endstyle %}
+
+                        <a href="{{ product.url }}" data-title="{{ product.type }}" class="product-{{ product.handle }} {% if product.handle == product_handle %}active{% endif %}"></a>
+                      {% endunless %}
+                    {% endfor %}
+                  </div>
+                {% endif %}
+
+                {% if product.available and product.variants.size > 1 %}
+                  {% for option in product.options %}
+                    {% include 'swatch' with option %}
+                  {% endfor %}
+                {% endif %}
+
+                <div class="hide">
+                  <select name="id" id="productSelect">
+                    {% for variant in product.variants %}
+                      {% if variant.available %}
+                        <option {% if variant == product.selected_or_first_available_variant %} selected="selected" {% endif %} data-sku="{{ variant.sku }}" value="{{ variant.id }}">{{ variant.title }} - {{ variant.price | money_with_currency }}</option>
+                      {% else %}
+                        <option disabled="disabled">
+                          {{ variant.title }} - {{ 'products.product.sold_out' | t }}
+                        </option>
+                      {% endif %}
+                    {% endfor %}
+                  </select>
+                </div>
+
+              	{% unless product.handle == 'gift-card' %}
+
+                <button type="button" class="product-single__subscribe btn">Subscribe & Save 10% <span><span></button>
+
+                <div class="ro_wrapper hide">
+                  <span class="icon icon-chevron-down"></span>
+                  <span class="icon icon-chevron-down"></span>
+                  <span class="ro_deliver_every_label">Deliver every</span>
+                  <span class="ro_cancel">Cancel</span>
+                  <div class="ro_widget"></div>
+                </div>
+
+                 {% endunless %}
+
+                <button type="submit" name="add" id="AddToCart" class="addtocart btn product-single__submit">
+                  <span class="product-single__price product-price" itemprop="price" content="{{ current_variant.price | money_without_currency }}">
+                    {{ current_variant.price | money }}
+                  </span>
+                  <span> &ndash; </span>
+                  <span id="AddToCartText">{{ 'products.product.add_to_cart' | t }}</span>
+                </button>
+
+                <button id="BIS_trigger" class="bis-trigger btn hide">Notify me when back in stock</button>
+
+                {% if product.metafields.c_f.alternate-buy != blank %}
+                  <div class="product-single__alt-buy">
+                    <a href="/products/{{ product.metafields.c_f.alternate-buy }}">{{ product.metafields.c_f.alternate-buy-text }} &rarr;</a>
+                  </div>
+                {% endif %}
+              {% endform %}
+            </div>
+
+            {% if product.description != blank %}
+              {% if product.metafields.c_f.ingredients != blank or product.metafields.c_f.directions != blank %}
+                <ul class="product-single__tabs">
+                  <li class="active" data-tab="details">Details</li>
+
+                  {% if product.metafields.c_f.ingredients != blank %}
+                    <li data-tab="ingredients">Ingredients</li>
+                  {% endif %}
+
+                  {% if product.metafields.c_f.directions != blank %}
+                    <li data-tab="directions">Directions</li>
+                  {% endif %}
+                </ul>
+              {% endif %}
+
+              <div class="product-single__details active {% if product.metafields.c_f.ingredients == blank and product.metafields.c_f.directions == blank %}details-only{% endif %}" itemprop="description">
+                <p>{{ product.description }}</p>
+              </div>
+
+              {% if product.metafields.c_f.ingredients != blank %}
+                <div class="product-single__ingredients">
+                  <p>{{ product.metafields.c_f.ingredients }}</p>
+                </div>
+              {% endif %}
+
+              {% if product.metafields.c_f.directions != blank %}
+                <div class="product-single__directions">
+                  <p>{{ product.metafields.c_f.directions }}</p>
+                </div>
+              {% endif %}
+            {% endif %}
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  {% include 'product-guarantees' %}
+  {% include 'product-related' %}
+  {% include 'product-bottom-images' %}
+  {% include 'product-reviews' %}
+  {% include 'product-banner' %}
+  {% include 'product-related-articles' %}
+</div>
+
+{{ 'option_selection.js' | shopify_asset_url | script_tag }}
+
+<script>
+  // Initialize productJS on doc ready
+  $(document).ready(function() {
+    productJS();
+  });
+
+  function productJS() {
+    var selectCallback = function(variant, selector) {
+      shop.productPage({
+        money_format: "{{ shop.money_format }}",
+        variant: variant,
+        selector: selector
+      });
+
+      if (variant) {
+        var form = jQuery('#' + selector.domIdPrefix).closest('form');
+        for (var i=0,length=variant.options.length; i<length; i++) {
+          var radioButton = form.find('.swatch[data-option-index="' + i + '"] :radio[value="' + variant.options[i] +'"]');
+          if (radioButton.size()) {
+            radioButton.get(0).checked = true;
+          }
+        }
+      }
+
+      if (variant && variant.available) {
+        $('.bis-trigger').addClass('hide');
+        $('.product-single__submit').removeClass('hide');
+      } else {
+        $('.bis-trigger').removeClass('hide');
+        $('.product-single__submit').addClass('hide');
+      }
+    };
+
+    new Shopify.OptionSelectors('productSelect', {
+      product: {{ product | json }},
+      onVariantSelected: selectCallback,
+      enableHistoryState: false
+    });
+
+    {% if product.tags contains 'combined-variant-options' %}
+      $('.swatch :radio').change(function() {
+        var optionIndex = $(this).closest('.swatch').attr('data-option-index');
+        var optionValue = $(this).val();
+        var i = $(this).closest('form').find('.single-option-selector').eq(optionIndex).find('option[value="'+optionValue+'"]').index() + 1;
+        $(this).closest('form').find('.single-option-selector').each(function(){
+          var option = $(this).find('option:nth-child('+[i]+')').val();
+          $(this).val(option).trigger('change');
+        });
+      });
+    {% else %}
+    	$('.swatch :radio').change(function() {
+	      var optionIndex = $(this).closest('.swatch').attr('data-option-index');
+          var optionValue = $(this).val();
+          $(this)
+            .closest('form')
+            .find('.single-option-selector')
+            .eq(optionIndex)
+            .val(optionValue)
+            .trigger('change');
+        });
+    {% endif %}
+
+    $('.swatch-element').click(function() {
+      $('.swatch-element').removeClass('active');
+      $(this).addClass('active');
+
+      var variantImage = $(this).find('[data-variant-image-src]').attr('data-variant-image-src');
+      $('[data-variant-image]').attr('src', variantImage );
+    });
+
+    $('.product-single__subscribe').click(function() {
+      $(this).toggleClass('active');
+      $('.ro_wrapper').toggleClass('hide');
+
+      if($(this).hasClass('active')) {
+        $('.bold-ro__subscribe-radio-btn').prop('checked', true).trigger('click');
+        $('.single-option-selector').trigger('change');
+        $('.bold-ro__recurring-div .bold-ro__recurring-lbl').trigger('click');
+        $('#AddToCartText').text('Subscribe');
+      } else {
+        $('.bold-ro__one-time-radio-btn').prop('checked', true).trigger('click');
+        $('.single-option-selector').trigger('change');
+        $('.bold-ro__one-time-div .bold-ro__recurring-lbl').trigger('click');
+        $('#AddToCartText').text('Add to bag');
+      }
+    });
+
+    $('.ro_cancel').click(function() {
+      $('.ro_wrapper').addClass('hide');
+      $('.product-single__subscribe').removeClass('active');
+      $('.bold-ro__one-time-radio-btn').prop('checked', true).trigger('click');
+      $('.single-option-selector').trigger('change');
+      $('#AddToCartText').text('Add to bag');
+    });
+  }
+</script>
+
+<script text="text/javascript">
+  var _learnq = _learnq || [];
+
+  var item = {
+    Name: {{ product.title|json }},
+    ProductID: {{ product.id|json }},
+    Categories: {{ product.collections|map:'title'|json }},
+    ImageURL: "https:{{ product.featured_image.src|img_url:'grande' }}",
+    URL: "{{ shop.secure_url }}{{ product.url }}",
+    Brand: {{ product.vendor|json }},
+    Price: {{ product.price|money|json }},
+    CompareAtPrice: {{ product.compare_at_price_max|money|json }}
+  };
+
+  _learnq.push(['track', 'Viewed Product', item]);
+  _learnq.push(['trackViewedItem', {
+    Title: item.Name,
+    ItemId: item.ProductID,
+    Categories: item.Categories,
+    ImageUrl: item.ImageURL,
+    Url: item.URL,
+    Metadata: {
+      Brand: item.Brand,
+      Price: item.Price,
+      CompareAtPrice: item.CompareAtPrice
+    }
+  }]);
+</script>

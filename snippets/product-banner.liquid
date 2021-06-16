@@ -1,0 +1,16 @@
+{% if product.metafields.c_f.helpful-tips %}
+  <div class="product-single__banner" style="background-image: url('{{ 'product-banner.jpg' | asset_url | replace: '.jpg', '_1440x1440.jpg' }}');" data-rjs="{{ 'product-banner.jpg' | asset_url }}">
+    <div class="wrapper">
+      <div class="grid">
+        <div class="grid__item medium--one-half push--medium--one-half push--large--seven-twelfths large--five-twelfths">
+          <div class="display-table">
+            <div class="display-table-cell">
+              <h4>Learn more about using this product</h4>
+              <a class="btn" href="{{ product.metafields.c_f.helpful-tips }}">Helpful tips</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+{% endif %}

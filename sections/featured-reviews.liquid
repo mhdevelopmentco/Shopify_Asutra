@@ -1,0 +1,98 @@
+<div id="featured-reviews" class="featured-reviews">
+  <div class="wrapper">
+    <h3>{{ section.settings.featured_reviews_headline }}</h3>
+
+    <div class="featured-reviews__carousel">
+      {% for block in section.blocks %}
+        <div class="featured-review">
+          <div class="grid">
+            <div class="grid__item five-twelfths">
+              {% capture background_color %}{% endcapture %}
+              {% for tag in all_products[block.settings.featured_review_product].tags %}
+                {% if tag contains 'background-color-' %}
+                  {% capture background_color %}{{ tag | remove: 'background-color-' }}{% endcapture %}
+                {% endif %}
+              {% endfor %}
+
+              <div class="featured-review__image" {% if background_color != blank %}style="background-color: {{ background_color }};"{% endif %}>
+                <a href="{{ all_products[block.settings.featured_review_product].url }}">
+                  <div class="featured-review__image-content">
+                    <img src="{{ all_products[block.settings.featured_review_product].featured_image.src | img_url: '300x300' }}" alt="{{ all_products[block.settings.featured_review_product].title }}">
+                    <span>{{ all_products[block.settings.featured_review_product].title }}</span>
+                  </div>
+                </a>
+              </div>
+            </div>
+
+            <div class="grid__item seven-twelfths">
+              <div class="featured-review__content">
+                <div class="display-table">
+                  <div class="display-table-cell">
+                    <span>
+                      <span class="icon icon-star"></span>
+                      <span class="icon icon-star"></span>
+                      <span class="icon icon-star"></span>
+                      <span class="icon icon-star"></span>
+                      <span class="icon icon-star"></span>
+                      <span class="featured-review__date">{{ block.settings.featured_review_date }}</span>
+                    </span>
+                    <h4>{{ block.settings.featured_review_headline }}</h4>
+                    <p>{{ block.settings.featured_review_content }}</p>
+                    <small>{{ block.settings.featured_review_name }}</small>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      {% endfor %}
+    </div>
+  </div>
+</div>
+
+{% schema %}
+  {
+    "name": "Featured Reviews",
+    "settings": [
+      {
+        "type": "text",
+        "id": "featured_reviews_headline",
+        "label": "Headline"
+      }
+    ],
+    "blocks": [
+      {
+        "type": "featured_review",
+        "name": "Featured Review",
+        "limit": 12,
+        "settings": [
+          {
+            "type": "product",
+            "id": "featured_review_product",
+            "label": "Product"
+          },
+          {
+            "type": "text",
+            "id": "featured_review_date",
+            "label": "Date"
+          },
+          {
+            "type": "text",
+            "id": "featured_review_headline",
+            "label": "Headline"
+          },
+          {
+            "type": "textarea",
+            "id": "featured_review_content",
+            "label": "Content"
+          },
+          {
+            "type": "text",
+            "id": "featured_review_name",
+            "label": "Name"
+          }
+        ]
+      }
+    ]
+  }
+{% endschema %}

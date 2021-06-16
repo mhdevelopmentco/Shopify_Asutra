@@ -1,0 +1,52 @@
+<div class="filter-menu">
+  <div class="filter-group">
+    <h4 data-handle="product">
+      Shop by product
+      <span class="filter-open icon icon-chevron-up"></span>
+      <span class="filter-closed icon icon-chevron-down"></span>
+    </h4>
+    <div class="scroll-content">
+      <ul>
+        {% for link in linklists.product-types.links %}
+          <li>
+            <a href="{{ link.url }}" {% if link.active %}class="active"{% endif %}>{{ link.title }}</a>
+          </li>
+        {% endfor %}
+      </ul>
+    </div>
+  </div>
+
+  <div class="filter-group">
+    <h4 data-handle="health-benefit">
+      Shop by health benefit
+      <span class="filter-open icon icon-chevron-up"></span>
+      <span class="filter-closed icon icon-chevron-down"></span>
+    </h4>
+    <div class="scroll-content">
+      <ul>
+        {% for link in linklists.health-benefits.links %}
+          <li>
+            <a href="{{ link.url }}">{{ link.title }}</a>
+          </li>
+        {% endfor %}
+      </ul>
+    </div>
+  </div>
+
+  <div class="filter-group">
+    <h4 data-handle="health-benefit">
+      Shop by scent
+      <span class="filter-open icon icon-chevron-up"></span>
+      <span class="filter-closed icon icon-chevron-down"></span>
+    </h4>
+    <div class="scroll-content">
+      <ul>
+        {% for link in linklists.scents.links %}
+          <li>
+            <a href="{{ link.url }}">{{ link.title }}</a>
+          </li>
+        {% endfor %}
+      </ul>
+    </div>
+  </div>
+</div>

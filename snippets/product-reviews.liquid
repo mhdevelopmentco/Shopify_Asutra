@@ -1,0 +1,10 @@
+<div class="product-single__reviews">
+  <div class="wrapper">
+    <div class="grid">
+      <div class="grid__item large--ten-twelfths push--large--one-twelfth">
+        <h3 class="product-single__reviews-headline">Real reviews from <br class="medium--hide large--hide"> real people</h3>
+        <div class="yotpo yotpo-main-widget" data-product-id="{{ product.id }}" data-name="{{ product.title | escape }}" data-url="{{ shop.url }}{{ product.url }}" data-image-url="{{ product.featured_image | product_img_url: "large" |replace: '?', '%3F' | replace: '&','%26'}}" data-description="{{ product.description | escape }}"></div>
+      </div>
+    </div>
+  </div>
+</div>
